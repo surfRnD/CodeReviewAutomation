@@ -18,112 +18,12 @@
         <list_context_menu>false</list_context_menu>
         <list_link>false</list_link>
         <list_save_with_form_button>false</list_save_with_form_button>
-        <name>RUN ACR</name>
+        <name>Code Review</name>
         <onclick/>
         <order>100</order>
         <script><![CDATA[var validUtil = new ValidateCodeReviewPayload();
-validUtil.validate(current,1);
-/*var lastRunTime = Date.now().toString();
-var updateSets = current.update_set_s.split(',');
-if(updateSets.length < 1){
-	gs.addErrorMessage('No update sets available to RUN ACR');
-}else{
-	current.last_run_time = lastRunTime;
-	current.update();
-}
-
-for(var set in updateSets){
-	// 	gs.addInfoMessage('adsfsdf '+us.update_set.name);
-	
-	var updateXml = new GlideRecord('sys_update_xml');
-	updateXml.addQuery('update_set',updateSets[set]);
-	updateXml.addEncodedQuery();
-	var queryString = "type=Business Rule^ORtype=Client Script^ORtype=Script Include";
-	//  var gr = new GlideRecord('incident');
-	
-	updateXml.addEncodedQuery(queryString);
-	updateXml.query();
-	var acrTotalCommandString = '<parameters>';
-	var eslintCommand = '<parameter name="name" value="php acr/codereview.php ';
-	var payloadMap = {};
-	var fileString = '';
-	while(updateXml.next()){
-		if(updateXml.name.indexOf('sys_script_client') != -1){
-			var nameChunks = updateXml.name.split('_');
-			var val = payloadMap['ClientScripts'];
-			if(!val){
-				payloadMap['ClientScripts'] = nameChunks[nameChunks.length-1] + '';
-			}else{
-				payloadMap['ClientScripts'] = val + ',' + nameChunks[nameChunks.length-1];
-			}
-			//fileString += 'ClientScripts:'+nameChunks[nameChunks.length-1]+',';
-		}else if(updateXml.name.indexOf('sys_script_include') != -1){
-			var nameChunks =  updateXml.name.split('_');
-			var val = payloadMap['ScriptIncludes'];
-			if(!val){
-				payloadMap['ScriptIncludes'] = nameChunks[nameChunks.length-1] + '';
-			}else{
-				payloadMap['ScriptIncludes'] = val + ',' + nameChunks[nameChunks.length-1];
-			}
-			//fileString += 'ScriptIncludes:'+nameChunks[nameChunks.length-1]+',';
-		}else if(updateXml.name.indexOf('sys_script') != -1){
-			var nameChunks =  updateXml.name.split('_');
-			var val = payloadMap['BusinessRules'];
-			if(!val){
-				payloadMap['BusinessRules'] = nameChunks[nameChunks.length-1] + '';
-			}else{
-				payloadMap['BusinessRules'] = val + ',' + nameChunks[nameChunks.length-1];
-			}
-			//fileString += 'BusinessRules:'+nameChunks[nameChunks.length-1]+',';
-		}
-	}
-	if(!payloadMap){
-		continue;
-	}
-	//var fileString = fileString.substring(0, fileString.length-1); // to remove the trailing comma.
-	
-	eslintCommand += encodeURI(JSON.stringify(payloadMap)) + '"/>';
-	var updateSetParam = '<parameter name="updateset" value ="'+updateSets[set]+'"/>';
-	var storyParam = '<parameter name="story" value ="'+current.story_number+'"/>';
-	
-	var runningIDParam = '<parameter name="runningID" value ="'+lastRunTime+'"/>';
-	current.update();
-	acrTotalCommandString += eslintCommand+updateSetParam+storyParam+runningIDParam+'</parameters>';
-	// 		acrTotalCommandString += eslintCommand+'</parameters>';
-	// 	gs.info();
-	
-	// submitting the ecc queue job for one update set.
-	var queue = new GlideRecord('ecc_queue');
-	
-	queue.initialize();
-	queue.topic = 'Command';
-	queue.queue = 'output';
-	
-	queue.agent = getActiveMidAgentName();
-	if(queue.agent == '-1'){
-		gs.addErrorMessage('No Active MID server message');
-	}
-	queue.payload= acrTotalCommandString;
-	
-	queue.insert();
-	
-}
-
-function getActiveMidAgentName(){
-	var agent = new GlideRecord('ecc_agent');
-	var midserverName ='mid.server.';
-	agent.initialize();
-	agent.addQuery('status','up');
-	agent.query();
-	if(agent.next()){
-		midserverName += agent.name;
-	}else{
-		midserverName = '-1';
-	}
-	return midserverName;
-}
-*/]]></script>
-        <show_insert>true</show_insert>
+validUtil.validate(current);]]></script>
+        <show_insert>false</show_insert>
         <show_multiple_update>false</show_multiple_update>
         <show_query>false</show_query>
         <show_update>true</show_update>
@@ -134,8 +34,8 @@ function getActiveMidAgentName(){
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>76043e3adb1d3200c2f3717bbf9619c3</sys_id>
-        <sys_mod_count>26</sys_mod_count>
-        <sys_name>RUN ACR</sys_name>
+        <sys_mod_count>28</sys_mod_count>
+        <sys_name>Code Review</sys_name>
         <sys_overrides/>
         <sys_package display_value="Automated Code Review" source="x_snc_automated_co">5501bca61315b240a5e739fed144b06d</sys_package>
         <sys_policy/>
@@ -143,7 +43,7 @@ function getActiveMidAgentName(){
         <sys_scope display_value="Automated Code Review">5501bca61315b240a5e739fed144b06d</sys_scope>
         <sys_update_name>sys_ui_action_76043e3adb1d3200c2f3717bbf9619c3</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2017-03-15 13:08:56</sys_updated_on>
+        <sys_updated_on>2017-03-19 19:56:05</sys_updated_on>
         <table>x_snc_automated_co_review_request</table>
         <ui11_compatible>true</ui11_compatible>
         <ui16_compatible>false</ui16_compatible>
