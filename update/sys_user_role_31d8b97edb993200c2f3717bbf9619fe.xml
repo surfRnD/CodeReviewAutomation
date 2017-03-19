@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_user_role">
+    <sys_user_role action="INSERT_OR_UPDATE">
+        <assignable_by/>
+        <can_delegate>true</can_delegate>
+        <description/>
+        <elevated_privilege>false</elevated_privilege>
+        <grantable>true</grantable>
+        <includes_roles/>
+        <name>x_snc_automated_co.mid_configuration_user</name>
+        <suffix>mid_configuration_user</suffix>
+        <sys_class_name>sys_user_role</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2017-03-08 07:12:26</sys_created_on>
+        <sys_customer_update>true</sys_customer_update>
+        <sys_id>31d8b97edb993200c2f3717bbf9619fe</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>x_snc_automated_co.mid_configuration_user</sys_name>
+        <sys_package display_value="Automated Code Review" source="x_snc_automated_co">5501bca61315b240a5e739fed144b06d</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Automated Code Review">5501bca61315b240a5e739fed144b06d</sys_scope>
+        <sys_update_name>sys_user_role_31d8b97edb993200c2f3717bbf9619fe</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2017-03-08 07:12:26</sys_updated_on>
+    </sys_user_role>
+</record_update>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element label="Review Request" max_length="40" name="x_snc_automated_co_review_request" type="collection">
+        <element label="Code Health" max_length="40" name="code_health" type="integer"/>
+        <element label="Details" max_length="8000" name="details" type="string"/>
+        <element label="Last Run by" max_length="40" name="last_run_by" type="string"/>
+        <element label="Last Run Time" max_length="40" name="last_run_time" type="string"/>
+        <element label="Story Number" max_length="40" name="story_number" type="string"/>
+        <element label="Story Owner" max_length="40" name="story_owner" type="string"/>
+        <element label="Update Set(s)" max_length="4000" name="update_set_s" reference="sys_update_set" type="glide_list"/>
+        <element label="Validated" max_length="40" name="validated" type="boolean"/>
+    </element>
+</database>

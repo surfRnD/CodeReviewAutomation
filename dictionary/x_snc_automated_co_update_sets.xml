@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element label="update sets" max_length="40" name="x_snc_automated_co_update_sets" type="collection">
+        <element label="Review Request" max_length="32" name="review_request" reference="x_snc_automated_co_review_request" reference_floats="true" type="reference"/>
+        <element label="update set" max_length="32" name="update_set" reference="sys_update_set" type="reference"/>
+        <index name="index">
+            <element name="review_request"/>
+        </index>
+        <index name="index2">
+            <element name="update_set"/>
+        </index>
+    </element>
+</database>

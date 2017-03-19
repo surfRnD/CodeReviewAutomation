@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>public</access>
+        <active>true</active>
+        <api_name>x_snc_automated_co.ValidateCodeReviewPayload</api_name>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>ValidateCodeReviewPayload</name>
+        <script><![CDATA[var ValidateCodeReviewPayload = Class.create();
+ValidateCodeReviewPayload.prototype = {
+	initialize: function() {
+	},
+	
+	/*
+ 	* @param mode
+ 	*      Mode = 1 implies Story level validation
+ 	*      Mode = 2 implies Update Set validation
+ 	*      Mode = 3 implies File level validation
+ 	*/
+	validate: function(gr) {
+		gs.info(['sys_script_include','sys_script','sys_script_client'].indexOf(gr.getTableName()));
+		if(gr.getTableName() == 'x_snc_automated_co_review_request') {
+			this.validateStory(gr);
+		}else if(gr.getTableName() == 'sys_update_set') {
+			this.validateUpdateSet(gr);
+		}else if(['sys_script_include','sys_script','sys_script_client'].indexOf(gr.getTableName()) > -1) {
+			this.validateFile(gr);
+		}		
+	},
+	
+	validateFile: function(current) {
+		var lastRunTime = Date.now().toString();
+		var val,nameChunks;
+		
+		var acrTotalCommandString = '<parameters>';
+		var eslintCommand = '<parameter name="name" value="php acr/codereview.php ';
+		var payloadMap = {};
+		if(current.sys_class_name.indexOf('sys_script_client') != -1){
+			payloadMap['ClientScripts'] = current.sys_id + '';
+		}else if(current.sys_class_name.indexOf('sys_script_include') != -1){
+			payloadMap['ScriptIncludes'] = current.sys_id + '';
+		}else if(current.sys_class_name.indexOf('sys_script') != -1){
+			payloadMap['BusinessRules'] = current.sys_id + '';
+		}
+		
+		eslintCommand += encodeURI(JSON.stringify(payloadMap)) +'"/>';
+		
+		var runningIDParam = '<parameter name="runningID" value ="'+lastRunTime+'"/>';
+		acrTotalCommandString += eslintCommand+runningIDParam+'</parameters>';
+		this.pushPayload2ECCQueue(acrTotalCommandString);
+	},
+	
+	validateStory: function(current) {
+		
+		var lastRunTime = Date.now().toString();
+		var val,nameChunks;
+		var updateSets = current.update_set_s.split(',');
+		if(updateSets.length < 1){
+			gs.addErrorMessage('No update sets available to RUN ACR');
+		}else{
+			current.last_run_time = lastRunTime;
+			current.update();
+		}
+		
+		if(updateSets) {
+			for(var set in updateSets){
+				// 	gs.addInfoMessage('adsfsdf '+us.update_set.name);
+				
+				var updateXml = new GlideRecord('sys_update_xml');
+				updateXml.addQuery('update_set',updateSets[set]);
+				updateXml.addEncodedQuery();
+				var queryString = "type=Business Rule^ORtype=Client Script^ORtype=Script Include";
+				//  var gr = new GlideRecord('incident');
+				
+				updateXml.addEncodedQuery(queryString);
+				updateXml.query();
+				var acrTotalCommandString = '<parameters>';
+				var eslintCommand = '<parameter name="name" value="php acr/codereview.php ';
+				var payloadMap = {};
+				var hasPayload = false;
+				while(updateXml.next()){
+					if(updateXml.name.indexOf('sys_script_client') != -1){
+						hasPayload = true;
+						nameChunks = updateXml.name.split('_');
+						val = payloadMap['ClientScripts'];
+						if(!val){
+							payloadMap['ClientScripts'] = nameChunks[nameChunks.length-1] + '';
+						}else{
+							payloadMap['ClientScripts'] = val + ',' + nameChunks[nameChunks.length-1];
+						}
+					}else if(updateXml.name.indexOf('sys_script_include') != -1){
+						hasPayload = true;
+						nameChunks =  updateXml.name.split('_');
+						val = payloadMap['ScriptIncludes'];
+						if(!val){
+							payloadMap['ScriptIncludes'] = nameChunks[nameChunks.length-1] + '';
+						}else{
+							payloadMap['ScriptIncludes'] = val + ',' + nameChunks[nameChunks.length-1];
+						}
+					}else if(updateXml.name.indexOf('sys_script') != -1){
+						hasPayload = true;
+						nameChunks =  updateXml.name.split('_');
+						val = payloadMap['BusinessRules'];
+						if(!val){
+							payloadMap['BusinessRules'] = nameChunks[nameChunks.length-1] + '';
+						}else{
+							payloadMap['BusinessRules'] = val + ',' + nameChunks[nameChunks.length-1];
+						}
+					}
+				}
+				if(!hasPayload){
+					continue;
+				}
+				
+				eslintCommand += encodeURI(JSON.stringify(payloadMap)) + '"/>';
+				var updateSetParam = '<parameter name="updateset" value ="'+updateSets[set]+'"/>';
+				var storyParam = '<parameter name="story" value ="'+current.story_number+'"/>';
+				
+				var runningIDParam = '<parameter name="runningID" value ="'+lastRunTime+'"/>';
+				acrTotalCommandString += eslintCommand+updateSetParam+storyParam+runningIDParam+'</parameters>';
+				
+				this.pushPayload2ECCQueue(acrTotalCommandString);
+				
+			}
+		}
+		
+	},
+	
+	validateUpdateSet: function(current) {
+		gs.info('In validateUpdateSet.');
+		var lastRunTime = Date.now().toString();
+		var val,nameChunks;
+		
+		var updateXml = new GlideRecord('sys_update_xml');
+		updateXml.addQuery('update_set',current.sys_id);
+		updateXml.addEncodedQuery();
+		var queryString = "type=Business Rule^ORtype=Client Script^ORtype=Script Include";
+		updateXml.addEncodedQuery(queryString);
+		updateXml.query();
+		var acrTotalCommandString = '<parameters>';
+		var eslintCommand = '<parameter name="name" value="php acr/codereview.php ';
+		var payloadMap = {};
+		while(updateXml.next()){
+			if(updateXml.name.indexOf('sys_script_client') != -1){
+				hasPayload = true;
+				nameChunks = updateXml.name.split('_');
+				val = payloadMap['ClientScripts'];
+				if(!val){
+					payloadMap['ClientScripts'] = nameChunks[nameChunks.length-1] + '';
+				}else{
+					payloadMap['ClientScripts'] = val + ',' + nameChunks[nameChunks.length-1];
+				}
+			}else if(updateXml.name.indexOf('sys_script_include') != -1){
+				hasPayload = true;
+				nameChunks =  updateXml.name.split('_');
+				val = payloadMap['ScriptIncludes'];
+				if(!val){
+					payloadMap['ScriptIncludes'] = nameChunks[nameChunks.length-1] + '';
+				}else{
+					payloadMap['ScriptIncludes'] = val + ',' + nameChunks[nameChunks.length-1];
+				}
+			}else if(updateXml.name.indexOf('sys_script') != -1){
+				hasPayload = true;
+				nameChunks =  updateXml.name.split('_');
+				val = payloadMap['BusinessRules'];
+				if(!val){
+					payloadMap['BusinessRules'] = nameChunks[nameChunks.length-1] + '';
+				}else{
+					payloadMap['BusinessRules'] = val + ',' + nameChunks[nameChunks.length-1];
+				}
+			}
+		}			
+			
+		eslintCommand += encodeURI(JSON.stringify(payloadMap)) + '"/>';
+		var updateSetParam = '<parameter name="updateset" value ="'+current.sys_id+'"/>';
+
+		var runningIDParam = '<parameter name="runningID" value ="'+lastRunTime+'"/>';
+		acrTotalCommandString += eslintCommand+updateSetParam+runningIDParam+'</parameters>';
+
+		this.pushPayload2ECCQueue(acrTotalCommandString);
+		
+	},
+	
+	pushPayload2ECCQueue: function(Payload) {
+		// submitting the ecc queue job for one update set.
+		var queue = new GlideRecord('ecc_queue');
+		
+		queue.initialize();
+		queue.topic = 'Command';
+		queue.queue = 'output';
+		
+		queue.agent = this.getActiveMidAgentName();
+		if(queue.agent == '-1'){
+			gs.addErrorMessage('No Active MID server message');
+		}
+		queue.payload= Payload;
+		
+		queue.insert();
+	},
+	
+	getActiveMidAgentName: function() {
+		var agent = new GlideRecord('ecc_agent');
+		var midserverName ='mid.server.';
+		agent.initialize();
+		agent.addQuery('status','up');
+		agent.query();
+		if(agent.next()){
+			midserverName += agent.name;
+		}else{
+			midserverName = '-1';
+		}
+		return midserverName;
+	},
+	
+	type: 'ValidateCodeReviewPayload'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2017-03-15 12:50:37</sys_created_on>
+        <sys_customer_update>true</sys_customer_update>
+        <sys_id>3ea5c309dbe9b20043abfd441d96199e</sys_id>
+        <sys_mod_count>9</sys_mod_count>
+        <sys_name>ValidateCodeReviewPayload</sys_name>
+        <sys_package display_value="Automated Code Review" source="x_snc_automated_co">5501bca61315b240a5e739fed144b06d</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Automated Code Review">5501bca61315b240a5e739fed144b06d</sys_scope>
+        <sys_update_name>sys_script_include_3ea5c309dbe9b20043abfd441d96199e</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2017-03-15 13:51:13</sys_updated_on>
+    </sys_script_include>
+</record_update>

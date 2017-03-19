@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_security_acl_role">
+    <sys_security_acl_role action="INSERT_OR_UPDATE">
+        <sys_class_name>sys_security_acl_role</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2017-03-09 15:11:36</sys_created_on>
+        <sys_customer_update>true</sys_customer_update>
+        <sys_id>7610f813db957200c2f3717bbf961986</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>x_snc_automated_co_review_results.x_snc_automated_co.review_results_user</sys_name>
+        <sys_package display_value="Automated Code Review" source="x_snc_automated_co">5501bca61315b240a5e739fed144b06d</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Automated Code Review">5501bca61315b240a5e739fed144b06d</sys_scope>
+        <sys_security_acl display_value="x_snc_automated_co_review_results">b210f813db957200c2f3717bbf961983</sys_security_acl>
+        <sys_update_name>sys_security_acl_role_7610f813db957200c2f3717bbf961986</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2017-03-09 15:11:36</sys_updated_on>
+        <sys_user_role display_value="x_snc_automated_co.review_results_user" name="x_snc_automated_co.review_results_user">d2107813db957200c2f3717bbf961910</sys_user_role>
+        <transaction_id/>
+    </sys_security_acl_role>
+</record_update>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_rest_message_fn_parameters">
+    <sys_rest_message_fn_parameters action="INSERT_OR_UPDATE">
+        <name>storyNumber</name>
+        <rest_message_function display_value="get">78001ef6dbd93200c2f3717bbf96197a</rest_message_function>
+        <sys_class_name>sys_rest_message_fn_parameters</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2017-03-08 09:06:56</sys_created_on>
+        <sys_customer_update>true</sys_customer_update>
+        <sys_id>c3f25abadbd93200c2f3717bbf961936</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>storyNumber</sys_name>
+        <sys_package display_value="Automated Code Review" source="x_snc_automated_co">5501bca61315b240a5e739fed144b06d</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Automated Code Review">5501bca61315b240a5e739fed144b06d</sys_scope>
+        <sys_update_name>sys_rest_message_fn_parameters_c3f25abadbd93200c2f3717bbf961936</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2017-03-08 09:06:56</sys_updated_on>
+        <type>string</type>
+        <value>STRY0249906</value>
+    </sys_rest_message_fn_parameters>
+</record_update>
