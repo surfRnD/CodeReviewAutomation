@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_ui_page">
+    <sys_ui_page action="INSERT_OR_UPDATE">
+        <category>general</category>
+        <client_script/>
+        <description/>
+        <direct>false</direct>
+        <endpoint>x_snc_automated_co_Automated Code Review Artifacts.do</endpoint>
+        <html><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
+<j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null">
+<style>
+div.midDownloads {
+  margin: 0 0 0 50px;
+  width: 500px;
+  padding: 0;
+}
+
+div.midDownloads table {
+  border: 1px solid black;
+  min-width: 498px;
+  border-spacing: 0;
+  border-collapse: collapse;
+  padding: 0;
+  margin: 0;
+}
+
+div.midDownloads table td {
+ border: 1px solid black;
+ min-width: 164px;
+ padding: 0;
+ margin: 0;
+}
+
+div.midDownloads table th {
+  background: #EEEEEE;
+  font-size: 14pt;
+  min-width: 164px;
+  padding: 0;
+  margin: 0;
+}
+
+div.midDownloads table td {
+  text-align: center;
+  font-size: 12pt;
+}
+
+div.midDownloads table td a {
+  width: 100%;
+  display: block;
+}
+
+div.midDownloads table td a:hover {
+  text-decoration: none;
+  background: #EEEEEE;
+  font-weight:bold;
+}
+
+div.midDownloads table td:hover {
+  background: #EEEEEE;
+  font-weight:bold;
+}
+</style>
+
+<h2>$[SP]${gs.getMessage('Automated Code Review Artifacts')}</h2>
+	
+<p>$[SP]$[SP]Refer to the$[SP]<a target="_blank" class="breadcrumb" href="https://surf.service-now.com/kb_view.do?sys_kb_id=9da442d8db11b680ff6c750aaf961992">Installation instructions</a>$[SP]for details.</p>
+
+<div class="midDownloads">
+<table>
+	<thead>
+		<tr>
+			<th style="width: 120px">OSX</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td><a href="/sys_attachment.do?sys_id=cc4fa362dba5360043abfd441d96191e">Zip File</a></td>
+		</tr>
+	</tbody>
+</table>
+</div>
+
+</j:jelly>]]></html>
+        <name>Automated Code Review Artifacts</name>
+        <processing_script/>
+        <sys_class_name>sys_ui_page</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2017-03-20 07:24:51</sys_created_on>
+        <sys_customer_update>true</sys_customer_update>
+        <sys_id>d5bda362dba5360043abfd441d96191b</sys_id>
+        <sys_mod_count>5</sys_mod_count>
+        <sys_name>Automated Code Review Artifacts</sys_name>
+        <sys_package display_value="Automated Code Review" source="x_snc_automated_co">5501bca61315b240a5e739fed144b06d</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Automated Code Review">5501bca61315b240a5e739fed144b06d</sys_scope>
+        <sys_update_name>sys_ui_page_d5bda362dba5360043abfd441d96191b</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2017-03-20 08:57:20</sys_updated_on>
+    </sys_ui_page>
+</record_update>
