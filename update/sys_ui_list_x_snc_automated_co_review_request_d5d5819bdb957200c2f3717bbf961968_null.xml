@@ -69,7 +69,7 @@
             <name>x_snc_automated_co_review_results</name>
             <parent>x_snc_automated_co_review_request</parent>
             <position/>
-            <relationship display_value="reviewResults">d5d5819bdb957200c2f3717bbf961968</relationship>
+            <relationship display_value="Review Validation Results">d5d5819bdb957200c2f3717bbf961968</relationship>
             <sum>false</sum>
             <sys_class_name>sys_ui_list</sys_class_name>
             <sys_created_by>admin</sys_created_by>

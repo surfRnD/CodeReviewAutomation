@@ -3,6 +3,7 @@
     <element label="Review Results" max_length="40" name="x_snc_automated_co_review_results" type="collection">
         <element label="Comment level" max_length="40" name="comment_level" type="string"/>
         <element label="File Sys Id" max_length="32" name="file_sys_id" reference="sys_metadata" type="reference"/>
+        <element default="true" label="isNew" max_length="40" name="isnew" type="boolean"/>
         <element label="Review Comments" max_length="4000" name="review_comments" type="string"/>
         <element label="Review Request" max_length="32" name="review_request" reference="x_snc_automated_co_review_request" type="reference"/>
         <element label="Running ID" max_length="40" name="running_id" type="string"/>
