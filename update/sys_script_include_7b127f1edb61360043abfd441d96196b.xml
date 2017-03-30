@@ -9,39 +9,84 @@
         <name>UpdateRuleDefinition</name>
         <script><![CDATA[var UpdateRuleDefinition = Class.create();
 UpdateRuleDefinition.prototype = Object.extendsObject(global.AbstractAjaxProcessor, {
-
+	
 	update: function() {
 		var value = this.getParameter('sysparm_definition');
 		var recordID = this.getParameter('sysparm_recordID');
+		var ruleNumber = this.getParameter('sysparm_ruleNumber');		
 		var ruleName = this.getParameter('sysparm_ruleName');
 		var ruleDesc = this.getParameter('sysparm_ruleDesc');
 		var isOOTB = this.getParameter('sysparm_isOOTB');
 		var appliedTo = this.getParameter('sysparm_appliedTo');
+		var lintLevel = this.getParameter('sysparm_lintLevel');
 		var isActive = this.getParameter('sysparm_active');
-
+		
 		var gr = new GlideRecord('x_snc_automated_co_code_review_rules');
 		gr.get(recordID);
 		
+		gr.number = ruleNumber;
 		gr.definition = value;
 		gr.rule_name = ruleName;
 		gr.rule_description = ruleDesc;
 		gr.is_ootb = isOOTB;
 		gr.applied_to = appliedTo;
 		gr.active = isActive;
+		gr.lint_level = lintLevel;
 		
 		gr.update();
 		
 		return true;
-			
+		
 	},
-    type: 'UpdateRuleDefinition'
+	
+	updateCondition: function() {
+		var recordID = this.getParameter('sysparm_recordID');
+		var isNewRecord = this.getParameter('sysparm_isNewRecord');
+		var ruleID = this.getParameter('sysparm_rule');
+		var ruleAppliedTo = this.getParameter('sysparm_ruleAppliedTo');
+		var conditionAppliedTo = this.getParameter('sysparm_appliedTo');
+		var filterCondition = this.getParameter('sysparm_filterCondition');		
+		var valid = false;
+		var isActive = this.getParameter('sysparm_active');
+		
+		gs.info('updateCondition Parameters :' + recordID + ':' + isNewRecord + ':' + ruleID + ':' + ruleAppliedTo + ':' + conditionAppliedTo + ':' + filterCondition + ':' + valid + ':' + isActive);
+		
+		if(filterCondition && conditionAppliedTo){
+			
+			var ruleAppliedToArry = ruleAppliedTo.toString().split(",");
+
+			var clientSideComponents = 'sys_script_client,sys_ui_script,catalog_script_client';
+			var serverSideComponents = 'sys_script,sys_script_include,sysevent_script_action';
+
+			for (var i=0; i < ruleAppliedToArry.length; i++) {
+				if(ruleAppliedToArry[i] == 'all_scripts') {
+					valid = true;
+					break;
+				}else {
+					if(ruleAppliedToArry[i] == conditionAppliedTo ||
+						((clientSideComponents.indexOf(conditionAppliedTo) > -1 && (clientSideComponents.indexOf(ruleAppliedToArry[i]) > -1 || ruleAppliedToArry[i] == 'all_client_scripts'))
+					||
+					(serverSideComponents.indexOf(conditionAppliedTo) > -1 && (serverSideComponents.indexOf(ruleAppliedToArry[i]) > -1 || ruleAppliedToArry[i] == 'all_server_scripts'))
+					)
+					){
+						valid = true;
+						break;
+					}
+				}
+			}		
+		}
+		
+		return valid;
+	},
+	
+	type: 'UpdateRuleDefinition'
 });]]></script>
         <sys_class_name>sys_script_include</sys_class_name>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2017-03-19 13:03:52</sys_created_on>
         <sys_customer_update>true</sys_customer_update>
         <sys_id>7b127f1edb61360043abfd441d96196b</sys_id>
-        <sys_mod_count>5</sys_mod_count>
+        <sys_mod_count>16</sys_mod_count>
         <sys_name>UpdateRuleDefinition</sys_name>
         <sys_package display_value="Automated Code Review" source="x_snc_automated_co">5501bca61315b240a5e739fed144b06d</sys_package>
         <sys_policy>read</sys_policy>
@@ -49,6 +94,6 @@ UpdateRuleDefinition.prototype = Object.extendsObject(global.AbstractAjaxProcess
         <sys_scope display_value="Automated Code Review">5501bca61315b240a5e739fed144b06d</sys_scope>
         <sys_update_name>sys_script_include_7b127f1edb61360043abfd441d96196b</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2017-03-19 18:17:29</sys_updated_on>
+        <sys_updated_on>2017-03-29 10:22:21</sys_updated_on>
     </sys_script_include>
 </record_update>

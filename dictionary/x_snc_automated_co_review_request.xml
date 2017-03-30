@@ -5,6 +5,7 @@
         <element label="Details" max_length="8000" name="details" type="string"/>
         <element label="Last Run by" max_length="40" name="last_run_by" type="string"/>
         <element label="Last Run Time" max_length="40" name="last_run_time" type="string"/>
+        <element default="javascript:global.getNextObjNumberPadded();" display="true" label="Review Number" max_length="40" name="number" type="string"/>
         <element label="Story Number" max_length="40" name="story_number" type="string"/>
         <element label="Story Owner" max_length="40" name="story_owner" type="string"/>
         <element label="Update Set(s)" max_length="4000" name="update_set_s" reference="sys_update_set" type="glide_list"/>

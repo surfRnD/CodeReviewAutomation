@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element label="Code Review Rule Conditions" max_length="40" name="x_snc_automated_co_code_review_rule_conditions" type="collection">
+        <element default="true" label="Active" max_length="40" name="active" type="boolean"/>
+        <element choice="1" label="Applied To" mandatory="true" max_length="40" name="applied_to" type="choice">
+            <choice>
+                <element label="Business Rules" value="sys_script"/>
+                <element label="Catalog Client Scripts" value="catalog_script_client"/>
+                <element label="Client Scripts" value="sys_script_client"/>
+                <element label="Script Actions" value="sysevent_script_action"/>
+                <element label="Script Includes" value="sys_script_include"/>
+                <element label="UI Scripts" value="sys_ui_script"/>
+            </choice>
+        </element>
+        <element dependent="applied_to" dependent_on_field="applied_to" label="Filter Condition" mandatory="true" max_length="4000" name="filter_condition" type="conditions" use_dependent_field="true"/>
+        <element label="Rule" max_length="32" name="rule" reference="x_snc_automated_co_code_review_rules" type="reference"/>
+        <index name="index">
+            <element name="rule"/>
+        </index>
+    </element>
+</database>

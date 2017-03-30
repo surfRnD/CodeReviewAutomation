@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update sys_domain="global" table="sys_data_policy2">
+    <sys_data_policy2 action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <apply_import_set>true</apply_import_set>
+        <apply_soap>true</apply_soap>
+        <conditions table="x_snc_automated_co_code_review_rules">is_oob=true^EQ<item endquery="false" field="is_oob" goto="false" newquery="false" operator="=" or="false" value="true"/>
+            <item endquery="true" field="" goto="false" newquery="false" operator="=" or="false" value=""/>
+        </conditions>
+        <description/>
+        <enforce_ui>true</enforce_ui>
+        <inherit>false</inherit>
+        <model_id/>
+        <model_table>x_snc_automated_co_code_review_rules</model_table>
+        <reverse_if_false>true</reverse_if_false>
+        <short_description>Restrict Editing of the OOTB Rules</short_description>
+        <sys_class_name>sys_data_policy2</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2017-03-23 13:13:44</sys_created_on>
+        <sys_customer_update>true</sys_customer_update>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>da4bdc37db29760043abfd441d961933</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Restrict Editing of the OOTB Rules</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Automated Code Review" source="x_snc_automated_co">5501bca61315b240a5e739fed144b06d</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Automated Code Review">5501bca61315b240a5e739fed144b06d</sys_scope>
+        <sys_update_name>sys_data_policy2_da4bdc37db29760043abfd441d961933</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2017-03-23 13:13:44</sys_updated_on>
+    </sys_data_policy2>
+</record_update>

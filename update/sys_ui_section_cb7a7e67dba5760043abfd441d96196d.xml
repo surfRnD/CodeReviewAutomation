@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update>
+    <sys_ui_section caption="" section_id="cb7a7e67dba5760043abfd441d96196d" sys_domain="global" table="x_snc_automated_co_eslintglobals" version="3" view="">
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>.begin_split</element>
+            <position>0</position>
+            <sys_created_by>hareeshhere</sys_created_by>
+            <sys_created_on>2017-03-23 06:10:22</sys_created_on>
+            <sys_id>8b7a7e67dba5760043abfd441d961970</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_snc_automated_co_eslintglobals" sys_domain="global" view="Default view">cb7a7e67dba5760043abfd441d96196d</sys_ui_section>
+            <sys_updated_by>hareeshhere</sys_updated_by>
+            <sys_updated_on>2017-03-23 06:10:22</sys_updated_on>
+            <sys_user/>
+            <type>.begin_split</type>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>appliedto</element>
+            <position>1</position>
+            <sys_created_by>hareeshhere</sys_created_by>
+            <sys_created_on>2017-03-23 06:10:23</sys_created_on>
+            <sys_id>0f7a7e67dba5760043abfd441d961970</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_snc_automated_co_eslintglobals" sys_domain="global" view="Default view">cb7a7e67dba5760043abfd441d96196d</sys_ui_section>
+            <sys_updated_by>hareeshhere</sys_updated_by>
+            <sys_updated_on>2017-03-23 06:10:23</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>.split</element>
+            <position>2</position>
+            <sys_created_by>hareeshhere</sys_created_by>
+            <sys_created_on>2017-03-23 06:10:23</sys_created_on>
+            <sys_id>8f7a7e67dba5760043abfd441d961970</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_snc_automated_co_eslintglobals" sys_domain="global" view="Default view">cb7a7e67dba5760043abfd441d96196d</sys_ui_section>
+            <sys_updated_by>hareeshhere</sys_updated_by>
+            <sys_updated_on>2017-03-23 06:10:23</sys_updated_on>
+            <sys_user/>
+            <type>.split</type>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>globalidentifier</element>
+            <position>3</position>
+            <sys_created_by>hareeshhere</sys_created_by>
+            <sys_created_on>2017-03-23 06:10:23</sys_created_on>
+            <sys_id>037a7e67dba5760043abfd441d961971</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_snc_automated_co_eslintglobals" sys_domain="global" view="Default view">cb7a7e67dba5760043abfd441d96196d</sys_ui_section>
+            <sys_updated_by>hareeshhere</sys_updated_by>
+            <sys_updated_on>2017-03-23 06:10:23</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>.end_split</element>
+            <position>4</position>
+            <sys_created_by>hareeshhere</sys_created_by>
+            <sys_created_on>2017-03-23 06:10:23</sys_created_on>
+            <sys_id>837a7e67dba5760043abfd441d961971</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_snc_automated_co_eslintglobals" sys_domain="global" view="Default view">cb7a7e67dba5760043abfd441d96196d</sys_ui_section>
+            <sys_updated_by>hareeshhere</sys_updated_by>
+            <sys_updated_on>2017-03-23 06:10:23</sys_updated_on>
+            <sys_user/>
+            <type>.end_split</type>
+        </sys_ui_element>
+        <sys_ui_section action="INSERT_OR_UPDATE">
+            <caption/>
+            <header>false</header>
+            <name>x_snc_automated_co_eslintglobals</name>
+            <roles/>
+            <sys_class_name>sys_ui_section</sys_class_name>
+            <sys_created_by>hareeshhere</sys_created_by>
+            <sys_created_on>2017-03-23 06:10:22</sys_created_on>
+            <sys_customer_update>true</sys_customer_update>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>cb7a7e67dba5760043abfd441d96196d</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>x_snc_automated_co_eslintglobals</sys_name>
+            <sys_overrides/>
+            <sys_package display_value="Automated Code Review" source="x_snc_automated_co">5501bca61315b240a5e739fed144b06d</sys_package>
+            <sys_policy/>
+            <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+            <sys_scope display_value="Automated Code Review">5501bca61315b240a5e739fed144b06d</sys_scope>
+            <sys_update_name>sys_ui_section_cb7a7e67dba5760043abfd441d96196d</sys_update_name>
+            <sys_updated_by>hareeshhere</sys_updated_by>
+            <sys_updated_on>2017-03-23 06:10:22</sys_updated_on>
+            <sys_user/>
+            <title>true</title>
+            <view display_value="Default view" name="NULL">Default view</view>
+            <view_name/>
+        </sys_ui_section>
+    </sys_ui_section>
+</record_update>

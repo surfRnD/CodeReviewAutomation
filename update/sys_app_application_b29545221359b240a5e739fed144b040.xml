@@ -8,7 +8,7 @@
         <hint/>
         <name>Review Request</name>
         <order>100</order>
-        <roles>x_snc_automated_co.review_request_user</roles>
+        <roles>x_snc_automated_co.Reviewer</roles>
         <sys_class_name>sys_app_application</sys_class_name>
         <sys_created_by>hareesh.neelisetti</sys_created_by>
         <sys_created_on>2017-03-07 08:50:06</sys_created_on>
@@ -16,7 +16,7 @@
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>b29545221359b240a5e739fed144b040</sys_id>
-        <sys_mod_count>1</sys_mod_count>
+        <sys_mod_count>2</sys_mod_count>
         <sys_name>Automated Code Review</sys_name>
         <sys_overrides/>
         <sys_package display_value="Automated Code Review" source="x_snc_automated_co">5501bca61315b240a5e739fed144b06d</sys_package>
@@ -24,8 +24,8 @@
         <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
         <sys_scope display_value="Automated Code Review">5501bca61315b240a5e739fed144b06d</sys_scope>
         <sys_update_name>sys_app_application_b29545221359b240a5e739fed144b040</sys_update_name>
-        <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2017-03-08 07:16:51</sys_updated_on>
+        <sys_updated_by>hareeshhere</sys_updated_by>
+        <sys_updated_on>2017-03-23 06:42:18</sys_updated_on>
         <title>Automated Code Review</title>
         <view_name/>
     </sys_app_application>

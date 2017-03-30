@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element label="ESLintGlobals" max_length="40" name="x_snc_automated_co_eslintglobals" type="collection">
+        <element choice="1" label="AppliedTo" max_length="40" name="appliedto" type="glide_list">
+            <choice>
+                <element label="Script Actions" value="script_actions"/>
+                <element label="Transform Map Scripts" value="transform_map_scripts"/>
+                <element label="UI Actions" value="ui_actions"/>
+                <element label="UI Pages" value="ui_pages"/>
+                <element label="UI Scripts" value="ui_scripts"/>
+                <element label="Workflow Activity Scripts" value="run_script_activities"/>
+                <element label="All Scripts" sequence="100" value="all_scripts"/>
+                <element label="All client side scripts" sequence="200" value="all_client"/>
+                <element label="All server side scripts" sequence="300" value="all_server"/>
+                <element label="Business Rules" sequence="400" value="business_rules"/>
+                <element label="Script Includes" sequence="500" value="script_includes"/>
+                <element label="Client Scripts" sequence="600" value="client_scripts"/>
+            </choice>
+        </element>
+        <element label="GlobalIdentifier" max_length="40" name="globalidentifier" type="string"/>
+    </element>
+</database>

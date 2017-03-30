@@ -2,10 +2,18 @@
 <database>
     <element label="Code Review Rules" max_length="40" name="x_snc_automated_co_code_review_rules" type="collection">
         <element label="Active" max_length="40" name="active" type="boolean"/>
-        <element label="Applied To" max_length="4000" name="applied_to" type="glide_list"/>
+        <element label="Applied To" mandatory="true" max_length="4000" name="applied_to" type="glide_list"/>
         <element label="Definition" max_length="8000" name="definition" type="script_plain"/>
         <element label="is OOB" max_length="40" name="is_oob" type="boolean"/>
-        <element label="Rule Description" max_length="4000" name="rule_description" type="string"/>
-        <element display="true" label="Rule Name" max_length="40" name="rule_name" type="string"/>
+        <element choice="1" label="Lint level" mandatory="true" max_length="40" name="lint_level" type="choice">
+            <choice>
+                <element label="Error" value="Error"/>
+                <element label="Info" value="Info"/>
+                <element label="Warning" value="Warning"/>
+            </choice>
+        </element>
+        <element default="javascript:global.getNextObjNumberPadded();" display="true" label="Rule Number" mandatory="true" max_length="40" name="number" type="string"/>
+        <element label="Rule Description" mandatory="true" max_length="4000" name="rule_description" type="string"/>
+        <element label="Rule Name" mandatory="true" max_length="40" name="rule_name" type="string"/>
     </element>
 </database>

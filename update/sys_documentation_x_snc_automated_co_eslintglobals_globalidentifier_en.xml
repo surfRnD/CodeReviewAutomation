@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update>
+    <sys_documentation element="globalidentifier" label="GlobalIdentifier" language="en" table="x_snc_automated_co_eslintglobals">
+        <sys_documentation action="INSERT_OR_UPDATE">
+            <element>globalidentifier</element>
+            <help/>
+            <hint/>
+            <label>GlobalIdentifier</label>
+            <language>en</language>
+            <name>x_snc_automated_co_eslintglobals</name>
+            <plural>GlobalIdentifiers</plural>
+            <sys_class_name>sys_documentation</sys_class_name>
+            <sys_created_by>hareeshhere</sys_created_by>
+            <sys_created_on>2017-03-23 04:20:30</sys_created_on>
+            <sys_customer_update>false</sys_customer_update>
+            <sys_id>a1516e6fdb65760043abfd441d9619db</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>GlobalIdentifier</sys_name>
+            <sys_package display_value="Automated Code Review" source="x_snc_automated_co">5501bca61315b240a5e739fed144b06d</sys_package>
+            <sys_policy/>
+            <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+            <sys_scope display_value="Automated Code Review">5501bca61315b240a5e739fed144b06d</sys_scope>
+            <sys_update_name>sys_documentation_x_snc_automated_co_eslintglobals_globalidentifier_en</sys_update_name>
+            <sys_updated_by>hareeshhere</sys_updated_by>
+            <sys_updated_on>2017-03-23 04:20:30</sys_updated_on>
+            <url/>
+            <url_target/>
+        </sys_documentation>
+    </sys_documentation>
+</record_update>

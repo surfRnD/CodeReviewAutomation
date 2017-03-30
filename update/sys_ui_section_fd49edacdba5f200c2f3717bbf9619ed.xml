@@ -2,128 +2,198 @@
 <record_update>
     <sys_ui_section caption="" section_id="fd49edacdba5f200c2f3717bbf9619ed" sys_domain="global" table="x_snc_automated_co_code_review_rules" version="3" view="">
         <sys_ui_element action="INSERT_OR_UPDATE">
-            <element>rule_name</element>
-            <position>0</position>
-            <sys_created_by>hareeshhere</sys_created_by>
-            <sys_created_on>2017-03-13 16:36:40</sys_created_on>
-            <sys_id>c8f9e5ecdba5f200c2f3717bbf9619f4</sys_id>
-            <sys_mod_count>0</sys_mod_count>
-            <sys_ui_formatter/>
-            <sys_ui_section caption="NULL" display_value="" name="x_snc_automated_co_code_review_rules" sys_domain="global" view="Default view">fd49edacdba5f200c2f3717bbf9619ed</sys_ui_section>
-            <sys_updated_by>hareeshhere</sys_updated_by>
-            <sys_updated_on>2017-03-13 16:36:40</sys_updated_on>
-            <sys_user/>
-            <type/>
-        </sys_ui_element>
-        <sys_ui_element action="INSERT_OR_UPDATE">
             <element>.begin_split</element>
-            <position>1</position>
-            <sys_created_by>hareeshhere</sys_created_by>
-            <sys_created_on>2017-03-13 16:36:40</sys_created_on>
-            <sys_id>4cf9e5ecdba5f200c2f3717bbf9619f4</sys_id>
+            <position>0</position>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2017-03-29 10:26:34</sys_created_on>
+            <sys_id>e6aeee21db39320043abfd441d961938</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_snc_automated_co_code_review_rules" sys_domain="global" view="Default view">fd49edacdba5f200c2f3717bbf9619ed</sys_ui_section>
-            <sys_updated_by>hareeshhere</sys_updated_by>
-            <sys_updated_on>2017-03-13 16:36:40</sys_updated_on>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2017-03-29 10:26:34</sys_updated_on>
             <sys_user/>
             <type>.begin_split</type>
         </sys_ui_element>
         <sys_ui_element action="INSERT_OR_UPDATE">
-            <element>applied_to</element>
-            <position>2</position>
-            <sys_created_by>hareeshhere</sys_created_by>
-            <sys_created_on>2017-03-13 16:36:40</sys_created_on>
-            <sys_id>ccf9e5ecdba5f200c2f3717bbf9619f4</sys_id>
+            <element>number</element>
+            <position>1</position>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2017-03-29 10:26:34</sys_created_on>
+            <sys_id>6aaeee21db39320043abfd441d961938</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_snc_automated_co_code_review_rules" sys_domain="global" view="Default view">fd49edacdba5f200c2f3717bbf9619ed</sys_ui_section>
-            <sys_updated_by>hareeshhere</sys_updated_by>
-            <sys_updated_on>2017-03-13 16:36:40</sys_updated_on>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2017-03-29 10:26:34</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
         <sys_ui_element action="INSERT_OR_UPDATE">
             <element>.split</element>
-            <position>3</position>
-            <sys_created_by>hareeshhere</sys_created_by>
-            <sys_created_on>2017-03-13 16:36:40</sys_created_on>
-            <sys_id>40f9e5ecdba5f200c2f3717bbf9619f5</sys_id>
+            <position>2</position>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2017-03-29 10:26:34</sys_created_on>
+            <sys_id>eaaeee21db39320043abfd441d961938</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_snc_automated_co_code_review_rules" sys_domain="global" view="Default view">fd49edacdba5f200c2f3717bbf9619ed</sys_ui_section>
-            <sys_updated_by>hareeshhere</sys_updated_by>
-            <sys_updated_on>2017-03-13 16:36:40</sys_updated_on>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2017-03-29 10:26:34</sys_updated_on>
             <sys_user/>
             <type>.split</type>
         </sys_ui_element>
         <sys_ui_element action="INSERT_OR_UPDATE">
             <element>is_oob</element>
-            <position>4</position>
-            <sys_created_by>hareeshhere</sys_created_by>
-            <sys_created_on>2017-03-13 16:36:40</sys_created_on>
-            <sys_id>c0f9e5ecdba5f200c2f3717bbf9619f5</sys_id>
+            <position>3</position>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2017-03-29 10:26:34</sys_created_on>
+            <sys_id>6eaeee21db39320043abfd441d961938</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_snc_automated_co_code_review_rules" sys_domain="global" view="Default view">fd49edacdba5f200c2f3717bbf9619ed</sys_ui_section>
-            <sys_updated_by>hareeshhere</sys_updated_by>
-            <sys_updated_on>2017-03-13 16:36:40</sys_updated_on>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2017-03-29 10:26:34</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
         <sys_ui_element action="INSERT_OR_UPDATE">
             <element>.end_split</element>
-            <position>5</position>
-            <sys_created_by>hareeshhere</sys_created_by>
-            <sys_created_on>2017-03-13 16:36:40</sys_created_on>
-            <sys_id>44f9e5ecdba5f200c2f3717bbf9619f5</sys_id>
+            <position>4</position>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2017-03-29 10:26:34</sys_created_on>
+            <sys_id>eeaeee21db39320043abfd441d961938</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_snc_automated_co_code_review_rules" sys_domain="global" view="Default view">fd49edacdba5f200c2f3717bbf9619ed</sys_ui_section>
-            <sys_updated_by>hareeshhere</sys_updated_by>
-            <sys_updated_on>2017-03-13 16:36:40</sys_updated_on>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2017-03-29 10:26:34</sys_updated_on>
             <sys_user/>
             <type>.end_split</type>
         </sys_ui_element>
         <sys_ui_element action="INSERT_OR_UPDATE">
-            <element>rule_description</element>
-            <position>6</position>
-            <sys_created_by>hareeshhere</sys_created_by>
-            <sys_created_on>2017-03-13 16:36:40</sys_created_on>
-            <sys_id>c4f9e5ecdba5f200c2f3717bbf9619f5</sys_id>
+            <element>.begin_split</element>
+            <position>5</position>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2017-03-29 10:26:34</sys_created_on>
+            <sys_id>62aeee21db39320043abfd441d961939</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_snc_automated_co_code_review_rules" sys_domain="global" view="Default view">fd49edacdba5f200c2f3717bbf9619ed</sys_ui_section>
-            <sys_updated_by>hareeshhere</sys_updated_by>
-            <sys_updated_on>2017-03-13 16:36:40</sys_updated_on>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2017-03-29 10:26:34</sys_updated_on>
+            <sys_user/>
+            <type>.begin_split</type>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>rule_name</element>
+            <position>6</position>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2017-03-29 10:26:34</sys_created_on>
+            <sys_id>e2aeee21db39320043abfd441d961939</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_snc_automated_co_code_review_rules" sys_domain="global" view="Default view">fd49edacdba5f200c2f3717bbf9619ed</sys_ui_section>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2017-03-29 10:26:34</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>.split</element>
+            <position>7</position>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2017-03-29 10:26:34</sys_created_on>
+            <sys_id>66aeee21db39320043abfd441d961939</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_snc_automated_co_code_review_rules" sys_domain="global" view="Default view">fd49edacdba5f200c2f3717bbf9619ed</sys_ui_section>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2017-03-29 10:26:34</sys_updated_on>
+            <sys_user/>
+            <type>.split</type>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>applied_to</element>
+            <position>8</position>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2017-03-29 10:26:34</sys_created_on>
+            <sys_id>e6aeee21db39320043abfd441d961939</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_snc_automated_co_code_review_rules" sys_domain="global" view="Default view">fd49edacdba5f200c2f3717bbf9619ed</sys_ui_section>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2017-03-29 10:26:34</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>.end_split</element>
+            <position>9</position>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2017-03-29 10:26:34</sys_created_on>
+            <sys_id>6aaeee21db39320043abfd441d961939</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_snc_automated_co_code_review_rules" sys_domain="global" view="Default view">fd49edacdba5f200c2f3717bbf9619ed</sys_ui_section>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2017-03-29 10:26:34</sys_updated_on>
+            <sys_user/>
+            <type>.end_split</type>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>active</element>
+            <position>10</position>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2017-03-29 10:26:34</sys_created_on>
+            <sys_id>eaaeee21db39320043abfd441d961939</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_snc_automated_co_code_review_rules" sys_domain="global" view="Default view">fd49edacdba5f200c2f3717bbf9619ed</sys_ui_section>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2017-03-29 10:26:34</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>rule_description</element>
+            <position>11</position>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2017-03-29 10:26:34</sys_created_on>
+            <sys_id>6eaeee21db39320043abfd441d961939</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_snc_automated_co_code_review_rules" sys_domain="global" view="Default view">fd49edacdba5f200c2f3717bbf9619ed</sys_ui_section>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2017-03-29 10:26:34</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
         <sys_ui_element action="INSERT_OR_UPDATE">
             <element>definition</element>
-            <position>7</position>
-            <sys_created_by>hareeshhere</sys_created_by>
-            <sys_created_on>2017-03-13 16:36:40</sys_created_on>
-            <sys_id>48f9e5ecdba5f200c2f3717bbf9619f5</sys_id>
-            <sys_mod_count>0</sys_mod_count>
-            <sys_ui_formatter/>
-            <sys_ui_section caption="NULL" display_value="" name="x_snc_automated_co_code_review_rules" sys_domain="global" view="Default view">fd49edacdba5f200c2f3717bbf9619ed</sys_ui_section>
-            <sys_updated_by>hareeshhere</sys_updated_by>
-            <sys_updated_on>2017-03-13 16:36:40</sys_updated_on>
-            <sys_user/>
-            <type/>
-        </sys_ui_element>
-        <sys_ui_element action="INSERT_OR_UPDATE">
-            <element>active</element>
-            <position>8</position>
+            <position>12</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2017-03-14 18:41:08</sys_created_on>
-            <sys_id>e4001fb8dba5b20043abfd441d961988</sys_id>
+            <sys_created_on>2017-03-29 10:26:34</sys_created_on>
+            <sys_id>eeaeee21db39320043abfd441d961939</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_snc_automated_co_code_review_rules" sys_domain="global" view="Default view">fd49edacdba5f200c2f3717bbf9619ed</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2017-03-14 18:41:08</sys_updated_on>
+            <sys_updated_on>2017-03-29 10:26:34</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>lint_level</element>
+            <position>13</position>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2017-03-29 10:26:34</sys_created_on>
+            <sys_id>62aeee21db39320043abfd441d96193a</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_snc_automated_co_code_review_rules" sys_domain="global" view="Default view">fd49edacdba5f200c2f3717bbf9619ed</sys_ui_section>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2017-03-29 10:26:34</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>

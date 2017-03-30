@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_ui_policy_action">
+    <sys_ui_policy_action action="INSERT_OR_UPDATE">
+        <disabled>ignore</disabled>
+        <field>rule</field>
+        <mandatory>ignore</mandatory>
+        <sys_class_name>sys_ui_policy_action</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2017-03-24 04:14:00</sys_created_on>
+        <sys_customer_update>true</sys_customer_update>
+        <sys_id>2169273fdbe9760043abfd441d961913</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>rule</sys_name>
+        <sys_package display_value="Automated Code Review" source="x_snc_automated_co">5501bca61315b240a5e739fed144b06d</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Automated Code Review">5501bca61315b240a5e739fed144b06d</sys_scope>
+        <sys_update_name>sys_ui_policy_action_2169273fdbe9760043abfd441d961913</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2017-03-24 04:14:00</sys_updated_on>
+        <table>x_snc_automated_co_code_review_rule_conditions</table>
+        <ui_policy display_value="Parent Rule Hide">2777d4f3db29760043abfd441d9619de</ui_policy>
+        <visible>false</visible>
+    </sys_ui_policy_action>
+</record_update>
