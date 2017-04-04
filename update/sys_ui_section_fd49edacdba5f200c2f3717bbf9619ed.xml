@@ -197,6 +197,20 @@
             <sys_user/>
             <type/>
         </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>mode</element>
+            <position>14</position>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2017-03-30 14:06:08</sys_created_on>
+            <sys_id>208a2486dbfd320043abfd441d9619d5</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_snc_automated_co_code_review_rules" sys_domain="global" view="Default view">fd49edacdba5f200c2f3717bbf9619ed</sys_ui_section>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2017-03-30 14:06:08</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
         <sys_ui_section action="INSERT_OR_UPDATE">
             <caption/>
             <header>false</header>
@@ -205,11 +219,11 @@
             <sys_class_name>sys_ui_section</sys_class_name>
             <sys_created_by>hareeshhere</sys_created_by>
             <sys_created_on>2017-03-13 16:33:48</sys_created_on>
-            <sys_customer_update>true</sys_customer_update>
+            <sys_customer_update>false</sys_customer_update>
             <sys_domain>global</sys_domain>
             <sys_domain_path>/</sys_domain_path>
             <sys_id>fd49edacdba5f200c2f3717bbf9619ed</sys_id>
-            <sys_mod_count>0</sys_mod_count>
+            <sys_mod_count>2</sys_mod_count>
             <sys_name>x_snc_automated_co_code_review_rules</sys_name>
             <sys_overrides/>
             <sys_package display_value="Automated Code Review" source="x_snc_automated_co">5501bca61315b240a5e739fed144b06d</sys_package>
@@ -217,8 +231,8 @@
             <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
             <sys_scope display_value="Automated Code Review">5501bca61315b240a5e739fed144b06d</sys_scope>
             <sys_update_name>sys_ui_section_fd49edacdba5f200c2f3717bbf9619ed</sys_update_name>
-            <sys_updated_by>hareeshhere</sys_updated_by>
-            <sys_updated_on>2017-03-13 16:33:48</sys_updated_on>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2017-04-04 03:43:37</sys_updated_on>
             <sys_user/>
             <title>true</title>
             <view display_value="Default view" name="NULL">Default view</view>

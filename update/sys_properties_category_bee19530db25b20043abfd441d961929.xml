@@ -5,7 +5,7 @@
         <sys_class_name>sys_properties_category</sys_class_name>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2017-03-14 09:30:41</sys_created_on>
-        <sys_customer_update>true</sys_customer_update>
+        <sys_customer_update>false</sys_customer_update>
         <sys_id>bee19530db25b20043abfd441d961929</sys_id>
         <sys_mod_count>0</sys_mod_count>
         <sys_name>Automated Code Reviews</sys_name>

@@ -51,17 +51,17 @@
         <sys_class_name>sys_dictionary</sys_class_name>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2017-03-09 15:11:34</sys_created_on>
-        <sys_customer_update>true</sys_customer_update>
-        <sys_id>ce4fa013db957200c2f3717bbf9619f3</sys_id>
-        <sys_mod_count>1</sys_mod_count>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_id>ee882046dbfd320043abfd441d9619ae</sys_id>
+        <sys_mod_count>0</sys_mod_count>
         <sys_name>Review Request</sys_name>
         <sys_package display_value="Automated Code Review" source="x_snc_automated_co">5501bca61315b240a5e739fed144b06d</sys_package>
         <sys_policy/>
         <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
         <sys_scope display_value="Automated Code Review">5501bca61315b240a5e739fed144b06d</sys_scope>
         <sys_update_name>sys_dictionary_x_snc_automated_co_review_results_review_request</sys_update_name>
-        <sys_updated_by>hareeshhere</sys_updated_by>
-        <sys_updated_on>2017-03-21 09:37:16</sys_updated_on>
+        <sys_updated_by>system</sys_updated_by>
+        <sys_updated_on>2017-03-30 13:58:01</sys_updated_on>
         <table_reference>false</table_reference>
         <text_index>false</text_index>
         <unique>false</unique>

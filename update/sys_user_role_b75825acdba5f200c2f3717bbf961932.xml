@@ -12,7 +12,7 @@
         <sys_class_name>sys_user_role</sys_class_name>
         <sys_created_by>hareeshhere</sys_created_by>
         <sys_created_on>2017-03-13 16:29:50</sys_created_on>
-        <sys_customer_update>true</sys_customer_update>
+        <sys_customer_update>false</sys_customer_update>
         <sys_id>b75825acdba5f200c2f3717bbf961932</sys_id>
         <sys_mod_count>0</sys_mod_count>
         <sys_name>x_snc_automated_co.code_review_rules_user</sys_name>

@@ -21,7 +21,7 @@
         <sys_class_name>sys_db_object</sys_class_name>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2017-03-23 12:43:14</sys_created_on>
-        <sys_customer_update>true</sys_customer_update>
+        <sys_customer_update>false</sys_customer_update>
         <sys_id>68d35473db29760043abfd441d96190f</sys_id>
         <sys_mod_count>0</sys_mod_count>
         <sys_name>Code Review Rule Conditions</sys_name>

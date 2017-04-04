@@ -7,7 +7,7 @@
         <sys_class_name>sys_data_policy_rule</sys_class_name>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2017-03-23 13:15:32</sys_created_on>
-        <sys_customer_update>true</sys_customer_update>
+        <sys_customer_update>false</sys_customer_update>
         <sys_data_policy display_value="Restrict Editing of the OOTB Rules">da4bdc37db29760043abfd441d961933</sys_data_policy>
         <sys_id>8bcb5077db29760043abfd441d96192a</sys_id>
         <sys_mod_count>0</sys_mod_count>

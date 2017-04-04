@@ -7,7 +7,7 @@
         <sys_class_name>sys_data_policy_rule</sys_class_name>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2017-03-29 10:16:24</sys_created_on>
-        <sys_customer_update>true</sys_customer_update>
+        <sys_customer_update>false</sys_customer_update>
         <sys_data_policy display_value="Make Rule Number field enter once">880caeeddbf5320043abfd441d9619ff</sys_data_policy>
         <sys_id>6d4c2221db39320043abfd441d961997</sys_id>
         <sys_mod_count>0</sys_mod_count>

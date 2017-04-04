@@ -19,7 +19,7 @@
         <sys_class_name>sys_relationship</sys_class_name>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2017-03-23 13:00:29</sys_created_on>
-        <sys_customer_update>true</sys_customer_update>
+        <sys_customer_update>false</sys_customer_update>
         <sys_id>ae58d8f3db29760043abfd441d961997</sys_id>
         <sys_mod_count>0</sys_mod_count>
         <sys_name>Rule Conditions</sys_name>

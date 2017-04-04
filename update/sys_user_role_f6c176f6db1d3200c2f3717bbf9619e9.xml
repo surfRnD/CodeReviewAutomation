@@ -12,7 +12,7 @@
         <sys_class_name>sys_user_role</sys_class_name>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2017-03-08 11:21:15</sys_created_on>
-        <sys_customer_update>true</sys_customer_update>
+        <sys_customer_update>false</sys_customer_update>
         <sys_id>f6c176f6db1d3200c2f3717bbf9619e9</sys_id>
         <sys_mod_count>0</sys_mod_count>
         <sys_name>x_snc_automated_co.update_sets_user</sys_name>

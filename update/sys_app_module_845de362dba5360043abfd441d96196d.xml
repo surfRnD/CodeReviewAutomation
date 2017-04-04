@@ -15,7 +15,7 @@
         <mobile_title>Downloads</mobile_title>
         <mobile_view_name>Mobile</mobile_view_name>
         <name/>
-        <order>500</order>
+        <order>700</order>
         <override_menu_roles>false</override_menu_roles>
         <query>/x_snc_automated_co_Automated%20Code%20Review%20Artifacts.do</query>
         <report/>
@@ -29,7 +29,7 @@
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>845de362dba5360043abfd441d96196d</sys_id>
-        <sys_mod_count>0</sys_mod_count>
+        <sys_mod_count>1</sys_mod_count>
         <sys_name>Downloads</sys_name>
         <sys_overrides/>
         <sys_package display_value="Automated Code Review" source="x_snc_automated_co">5501bca61315b240a5e739fed144b06d</sys_package>
@@ -38,7 +38,7 @@
         <sys_scope display_value="Automated Code Review">5501bca61315b240a5e739fed144b06d</sys_scope>
         <sys_update_name>sys_app_module_845de362dba5360043abfd441d96196d</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2017-03-20 07:33:20</sys_updated_on>
+        <sys_updated_on>2017-03-30 14:39:45</sys_updated_on>
         <timeline_page/>
         <title>Downloads</title>
         <uncancelable>false</uncancelable>

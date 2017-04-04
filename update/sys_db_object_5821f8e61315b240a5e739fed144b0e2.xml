@@ -21,7 +21,7 @@
         <sys_class_name>sys_db_object</sys_class_name>
         <sys_created_by>hareesh.neelisetti</sys_created_by>
         <sys_created_on>2017-03-07 08:50:06</sys_created_on>
-        <sys_customer_update>true</sys_customer_update>
+        <sys_customer_update>false</sys_customer_update>
         <sys_id>5821f8e61315b240a5e739fed144b0e2</sys_id>
         <sys_mod_count>1</sys_mod_count>
         <sys_name>Review Request</sys_name>

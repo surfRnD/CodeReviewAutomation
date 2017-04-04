@@ -21,7 +21,7 @@
         <sys_class_name>sys_db_object</sys_class_name>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2017-03-08 11:21:15</sys_created_on>
-        <sys_customer_update>true</sys_customer_update>
+        <sys_customer_update>false</sys_customer_update>
         <sys_id>a171b2f6db1d3200c2f3717bbf9619cf</sys_id>
         <sys_mod_count>0</sys_mod_count>
         <sys_name>update sets</sys_name>

@@ -12,7 +12,7 @@
             <sys_class_name>sys_documentation</sys_class_name>
             <sys_created_by>admin</sys_created_by>
             <sys_created_on>2017-03-09 15:11:36</sys_created_on>
-            <sys_customer_update>true</sys_customer_update>
+            <sys_customer_update>false</sys_customer_update>
             <sys_id>b210f813db957200c2f3717bbf9619af</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_name>Review Request</sys_name>

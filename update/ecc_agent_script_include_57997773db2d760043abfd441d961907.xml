@@ -136,7 +136,7 @@ AttachmentSender.prototype = {
         <sys_class_name>ecc_agent_script_include</sys_class_name>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2017-03-24 05:28:42</sys_created_on>
-        <sys_customer_update>true</sys_customer_update>
+        <sys_customer_update>false</sys_customer_update>
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>57997773db2d760043abfd441d961907</sys_id>

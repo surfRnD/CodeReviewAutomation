@@ -70,6 +70,7 @@ function getActiveMidAgentName(){
 	var midserverName ='mid.server.';
 	agent.initialize();
 	agent.addQuery('status','up');
+	agent.addQuery('name',gs.getProperty('x_snc_automated_co.ESLintMid'))
 	agent.query();
 	if(agent.next()){
 		midserverName += agent.name;
@@ -85,7 +86,7 @@ function getActiveMidAgentName(){
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>7b656df4db25b20043abfd441d9619e7</sys_id>
-        <sys_mod_count>13</sys_mod_count>
+        <sys_mod_count>14</sys_mod_count>
         <sys_name>SyncAcrStatus</sys_name>
         <sys_overrides/>
         <sys_package display_value="Automated Code Review" source="x_snc_automated_co">5501bca61315b240a5e739fed144b06d</sys_package>
@@ -94,7 +95,7 @@ function getActiveMidAgentName(){
         <sys_scope display_value="Automated Code Review">5501bca61315b240a5e739fed144b06d</sys_scope>
         <sys_update_name>sys_script_7b656df4db25b20043abfd441d9619e7</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2017-03-27 11:14:17</sys_updated_on>
+        <sys_updated_on>2017-03-31 08:34:47</sys_updated_on>
         <template/>
         <when>after</when>
     </sys_script>

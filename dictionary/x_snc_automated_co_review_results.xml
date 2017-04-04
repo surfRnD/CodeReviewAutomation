@@ -7,6 +7,7 @@
         <element default="javascript:global.getNextObjNumberPadded();" display="true" label="Review Result Number" max_length="40" name="number" read_only="true" type="string"/>
         <element label="Review Comments" max_length="4000" name="review_comments" read_only="true" type="string"/>
         <element label="Review Request" max_length="32" name="review_request" read_only="true" reference="x_snc_automated_co_review_request" type="reference"/>
+        <element label="Rule" max_length="32" name="rule" reference="x_snc_automated_co_code_review_rules" type="reference"/>
         <element label="Running ID" max_length="40" name="running_id" type="string"/>
         <element label="Story Number" max_length="40" name="story_number" read_only="true" type="string"/>
         <element label="Update Set" max_length="32" name="update_set" read_only="true" reference="sys_update_set" type="reference"/>
@@ -17,6 +18,9 @@
             <element name="review_request"/>
         </index>
         <index name="index3">
+            <element name="rule"/>
+        </index>
+        <index name="index4">
             <element name="update_set"/>
         </index>
     </element>

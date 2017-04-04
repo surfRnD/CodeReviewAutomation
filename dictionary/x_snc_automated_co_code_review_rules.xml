@@ -12,6 +12,12 @@
                 <element label="Warning" value="Warning"/>
             </choice>
         </element>
+        <element choice="1" label="Mode" max_length="40" name="mode" type="choice">
+            <choice>
+                <element label="ESLINT" value="eslint"/>
+                <element label="SNOW" value="snow"/>
+            </choice>
+        </element>
         <element default="javascript:global.getNextObjNumberPadded();" display="true" label="Rule Number" mandatory="true" max_length="40" name="number" type="string"/>
         <element label="Rule Description" mandatory="true" max_length="4000" name="rule_description" type="string"/>
         <element label="Rule Name" mandatory="true" max_length="40" name="rule_name" type="string"/>

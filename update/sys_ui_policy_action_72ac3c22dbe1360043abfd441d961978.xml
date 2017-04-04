@@ -7,7 +7,7 @@
         <sys_class_name>sys_ui_policy_action</sys_class_name>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2017-03-19 18:27:06</sys_created_on>
-        <sys_customer_update>true</sys_customer_update>
+        <sys_customer_update>false</sys_customer_update>
         <sys_id>72ac3c22dbe1360043abfd441d961978</sys_id>
         <sys_mod_count>0</sys_mod_count>
         <sys_name>definition</sys_name>
