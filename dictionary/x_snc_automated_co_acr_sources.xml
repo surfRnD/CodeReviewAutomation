@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element attributes="update_synch=true" extends="sys_metadata" label="ACR Sources" max_length="40" name="x_snc_automated_co_acr_sources" type="collection">
+        <element label="Active" max_length="40" name="active" type="boolean"/>
+        <element choice="1" label="Environment" max_length="40" name="environment" type="choice">
+            <choice>
+                <element label="Linux" value="linux"/>
+                <element label="Windows" value="windows"/>
+            </choice>
+        </element>
+        <element label="File Content" max_length="10000" name="file_content" type="string"/>
+        <element label="File Name" max_length="40" name="file_name" type="string"/>
+        <element label="Path" max_length="40" name="path" type="string"/>
+    </element>
+</database>

@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="x_snc_automated_co_acr_sources">
+    <x_snc_automated_co_acr_sources action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <environment>windows</environment>
+        <file_content>&lt;?php
+/********************
+********************/
+
+class REST_API
+{
+
+
+  public function getRESTAPI($baseString,$service_url)
+  {
+     $method='GET';
+     $curl = curl_init();
+
+  	  curl_setopt_array($curl, array(
+  	  CURLOPT_URL =&gt; $service_url,
+	  CURLOPT_RETURNTRANSFER =&gt; true,
+	  CURLOPT_ENCODING =&gt; "",
+	  CURLOPT_MAXREDIRS =&gt; 10,
+	  CURLOPT_TIMEOUT =&gt; 30,
+	  CURLOPT_HTTP_VERSION =&gt; CURL_HTTP_VERSION_1_1,
+	  CURLOPT_CUSTOMREQUEST =&gt; $method,
+	  CURLOPT_SSL_VERIFYPEER=&gt;false,
+	  CURLOPT_HTTPHEADER =&gt; array(
+      "authorization: Basic ".$baseString,
+      "cache-control: no-cache",
+       ),
+      ));
+      $response = curl_exec($curl);
+      $err = curl_error($curl);
+	
+	  curl_close($curl);
+
+	  if ($err) {
+        echo "cURL Error #:" . $err;
+      } else {
+       return $response;
+     } 
+  }
+
+  public function PUTRestAPI($baseString,$service_url,$content){
+          $curl = curl_init();
+
+          curl_setopt_array($curl, array(
+          CURLOPT_URL =&gt; $service_url,
+          CURLOPT_RETURNTRANSFER =&gt; true,
+          CURLOPT_ENCODING =&gt; "",
+          CURLOPT_MAXREDIRS =&gt; 10,
+          CURLOPT_TIMEOUT =&gt; 30,
+          CURLOPT_HTTP_VERSION =&gt; CURL_HTTP_VERSION_1_1,
+          CURLOPT_CUSTOMREQUEST =&gt; "PUT",
+          CURLOPT_POSTFIELDS =&gt; $content,
+		  CURLOPT_SSL_VERIFYPEER=&gt;false,
+          CURLOPT_HTTPHEADER =&gt; array(
+            "authorization: Basic ".$baseString,
+            "cache-control: no-cache",
+            "content-type: application/json",
+          ),
+        ));
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+
+        curl_close($curl);
+
+        if ($err) {
+          return "cURL Error #:" . $err;
+        } else {
+          //echo $response;
+          return "Successfully Inserted into PROD";
+        }
+  }
+
+  public function PUTRestFAPI($baseString,$service_url,$content){
+          $curl = curl_init();
+
+          curl_setopt_array($curl, array(
+          CURLOPT_URL =&gt; $service_url,
+          CURLOPT_RETURNTRANSFER =&gt; true,
+          CURLOPT_ENCODING =&gt; "",
+          CURLOPT_MAXREDIRS =&gt; 10,
+          CURLOPT_TIMEOUT =&gt; 30,
+          CURLOPT_HTTP_VERSION =&gt; CURL_HTTP_VERSION_1_1,
+          CURLOPT_CUSTOMREQUEST =&gt; "PUT",
+          CURLOPT_POSTFIELDS =&gt; $content,
+		  CURLOPT_SSL_VERIFYPEER=&gt;false,
+          CURLOPT_HTTPHEADER =&gt; array(
+            "authorization: Basic ".$baseString,
+            "cache-control: no-cache",
+            "content-type: application/json",
+          ),
+        ));
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+
+        curl_close($curl);
+
+        if ($err) {
+          return "cURL Error #:" . $err;
+        } else {
+          //echo $response;
+          return $response;
+        }
+  }
+
+  public function fileWCreate($filename,$content)
+  {
+  	//if(file_exists($filename)){
+  		$fp  = fopen($filename,'wb');
+    	fwrite($fp,$content);
+    	fclose($fp); 
+      $newFile = 1;
+      return $newFile;
+  	//}
+  	
+  }
+
+  public function fileCreate($filename,$content)
+  {
+    if(!file_exists($filename)){
+      $fp  = fopen($filename,'wb');
+      fwrite($fp,$content);
+      fclose($fp); 
+    }
+    
+  }
+
+  public function fileNewCreate($filename,$content)
+  {
+    $newFile = 0;
+    if(!file_exists($filename)){
+      $fp  = fopen($filename,'wb');
+      fwrite($fp,$content);
+      fclose($fp);
+      $newFile = 1; 
+    }
+    return $newFile;
+    
+  }
+
+  /* Function : fileJSCreate 
+  *  Params   : filename : string, content : string
+  *  Output   : Creates a Javascript File 
+  */
+  public function fileJSCreate($filename,$content)
+  {
+    try{
+        $newFile  =   0;
+        $fp       =   fopen($filename,'wb');
+        header('Content-Type: text/javascript');
+        fwrite($fp,$content);
+        fclose($fp);
+        unset($fp);
+        unset($content);
+        $newFile = 1;
+        return $newFile;
+    }
+    catch(Exception $ex){
+        echo $ex-&gt;getMessage();
+    }     
+  }
+
+
+  public function updateXml($directoryName,$scriptFolder,$scriptType,$scriptName,$content,$xmlFileName,$sysID,$updateTime){
+
+    try{
+
+      $restAPI        =   new REST_API; 
+      $finalFileName  =   $directoryName."/".$scriptType."/".$scriptName;
+
+      $restAPI-&gt;fileWCreate($finalFileName,$content);
+      $objDOM1        = new DOMDocument();
+      $objDOM1-&gt;load($xmlFileName);
+      $xml                =   simplexml_import_dom($objDOM1);
+      $storedFolderName   =   $scriptFolder;
+      $insertfilesCounter =   count($xml-&gt;$storedFolderName-&gt;files);
+      $updateVal          =   0; 
+      for($insertkey=0;$insertkey&lt;$insertfilesCounter;$insertkey++)
+        {
+          if($xml-&gt;$storedFolderName-&gt;files[$insertkey]-&gt;sys_id == $sysID){
+              $mTimearray = stat($finalFileName);
+              $xml-&gt;$storedFolderName-&gt;files[$insertkey]-&gt;sys_updated_on = $updateTime;
+              $xml-&gt;$storedFolderName-&gt;files[$insertkey]-&gt;mTime = $mTimearray['mtime'];
+              $xml-&gt;asXML($xmlFileName);
+              $updateVal = 1;
+              break;
+          }
+        }
+
+      return $updateVal;    
+
+    }catch(Exception $ex){
+
+    }
+      
+
+}
+
+function updateDeltaFile($deltaFile,$sysID,$createdTime,$updatedTime){
+
+    $deltaVal   = 0;
+
+    try{
+
+      $xmlFile    =   $deltaFile;
+      $objDOM1    =   new DOMDocument();
+      $objDOM1-&gt;load($xmlFile);
+      $xml = simplexml_import_dom($objDOM1);
+      if($xml-&gt;files-&gt;file != $sysID){
+        $xml-&gt;files-&gt;file = $sysID;
+        $xml-&gt;files-&gt;created = $createdTime;
+        $xml-&gt;files-&gt;updated = $updatedTime;
+        $xml-&gt;asXML($xmlFile);
+        $deltaVal   = 1;
+      }
+      
+    }
+    catch(Exception $ex){
+      $deltaVal   = 0;
+    }
+
+    return  $deltaVal;
+    
+}
+
+function checkfileExists($xmlFile,$sysID,$updatedTime,$folderName){
+
+  $objDOM1  = new DOMDocument();
+  $objDOM1-&gt;load($xmlFile);
+  $xml      = simplexml_import_dom($objDOM1);
+  $storedFolderName = $folderName;
+  $insertfilesCounter = count($xml-&gt;$storedFolderName-&gt;files);
+  $returnfileName = '';
+
+  for($insertkey=0;$insertkey&lt;$insertfilesCounter;$insertkey++)
+    {
+      if($xml-&gt;$storedFolderName-&gt;files[$insertkey]-&gt;sys_id == $sysID){
+            if($updatedTime &gt; $xml-&gt;$storedFolderName-&gt;files[$insertkey]-&gt;sys_updated_on)
+                      $returnfileName = $xml-&gt;$storedFolderName-&gt;files[$insertkey]-&gt;file;
+                     else
+                      $returnFileName = 'NValid';
+          break;
+      }
+
+    }
+  return $returnfileName; 
+}  
+
+}
+
+?&gt;</file_content>
+        <file_name>rest_call.php</file_name>
+        <path>acr</path>
+        <sys_class_name>x_snc_automated_co_acr_sources</sys_class_name>
+        <sys_created_by>hareeshhere</sys_created_by>
+        <sys_created_on>2017-04-05 16:24:57</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_id>c7b3c840db42f20043abfd441d961938</sys_id>
+        <sys_mod_count>4</sys_mod_count>
+        <sys_name/>
+        <sys_package display_value="Automated Code Review" source="x_snc_automated_co">5501bca61315b240a5e739fed144b06d</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Automated Code Review">5501bca61315b240a5e739fed144b06d</sys_scope>
+        <sys_update_name>x_snc_automated_co_acr_sources_c7b3c840db42f20043abfd441d961938</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2017-04-06 06:53:42</sys_updated_on>
+    </x_snc_automated_co_acr_sources>
+</record_update>

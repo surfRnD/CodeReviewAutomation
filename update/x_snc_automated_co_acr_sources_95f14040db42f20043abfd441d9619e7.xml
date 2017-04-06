@@ -1,0 +1,710 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="x_snc_automated_co_acr_sources">
+    <x_snc_automated_co_acr_sources action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <environment>windows</environment>
+        <file_content>&lt;?php
+/********************
+
+Package : Basic Functions
+
+********************/
+
+class BasicFunction
+{
+
+	protected $foldername	=	"";
+    protected $content 		=	"";
+    protected $componentArr =	array();
+
+    /*
+    * Function Name : directoryCreate
+    * Params 		: Directory Name : String
+    * Description   : To create parent directory
+    * Output 		: Null
+    */
+
+	public function directoryCreate($directory){
+
+		try{
+				if(!file_exists($directory))
+					{
+						mkdir($directory,0777);
+						chmod($directory,0777);
+					}
+		}
+		catch(Exception $ex){
+           echo 'Caught Exception: '.$ex-&gt;getMessage();
+		}
+	}
+
+	/*
+    * Function Name : configurationSetting
+    * Params 		: Directory Name : String
+    * Description   : To create parent directory
+    * Output 		: String : configuration
+    */
+	public function configurationSetting($directory,$instancename,$username,$password,$directorylist,$ruleAvailable){
+
+		try{
+				$directoryListLength = count($directorylist);
+				$this-&gt;content = '&lt;?php'.PHP_EOL;
+    			$this-&gt;content .= 'class CLint{'.PHP_EOL;
+    			$this-&gt;content .= "public \$directoryName='".$directory."';".PHP_EOL; 
+			    $this-&gt;content .= "public \$surfInstance='".$instancename."';".PHP_EOL; 
+			    $this-&gt;content .= "public \$username='".$username."';".PHP_EOL; 
+			    $this-&gt;content .= "public \$password='".base64_encode($password)."';".PHP_EOL;
+			    $this-&gt;content .= "public \$xmlFile='".$directory."/configuration.xml';".PHP_EOL;
+			    $this-&gt;content .= "public \$folderCount='".$directoryListLength."';".PHP_EOL;
+			    $this-&gt;content .= "public \$updateVersion = 'sys_update_version?sysparm_query=ORDERBYDESCsys_updated_on&amp;sysparm_fields=sys_id,sys_created_on,sys_updated_on,name&amp;sysparm_limit=1';".PHP_EOL;
+			    $this-&gt;content .= "public \$topMost = 'sys_update_version?sysparm_query=ORDERBYDESCsys_updated_on&amp;sysparm_fields=sys_id,sys_created_on,sys_updated_on,name';".PHP_EOL;
+			    $this-&gt;content .= "public \$deltaFile='".$directory."/delta.xml';".PHP_EOL;
+
+				for($i=0;$i&lt;$directoryListLength;$i++)
+		 		{
+					$folder =  $directory.'/'.$directorylist[$i];
+					if(mkdir($folder,0777))
+					{
+						$this-&gt;foldername = "folder".$i;
+	    			    $this-&gt;content .= "public \$".$this-&gt;foldername."='".$folder."';".PHP_EOL; 
+						chmod($folder,0777);
+					}
+		  		}
+				$this-&gt;content .= "public \$eslintLoc='".$directory."/rules/';".PHP_EOL;
+				$this-&gt;content .= "public \$eslintXML='".$directory."/eslint.xml';".PHP_EOL;
+				$this-&gt;content .= "public \$ruleAvailable=".$ruleAvailable.";".PHP_EOL;
+    		    $this-&gt;content .= '} ?&gt;'.PHP_EOL ;
+    		    return $this-&gt;content;
+		}
+		catch(Exception $ex){
+           echo 'Caught Exception: '.$ex-&gt;getMessage();
+		}
+	}
+
+
+    /*
+    * Function Name : fileCreate
+    * Params 		: File Name : String, Content : String
+    * Description   : To create Configuration File
+    * Output 		: Null
+    */
+
+	public function fileCreate($fileName,$content){
+
+		try{
+			$flag = 0;
+			$fp  = fopen($fileName,'wb');
+    		fwrite($fp,$content);
+    		fclose($fp);
+    		$flag = 1;
+    		return $flag;
+		}
+		catch(Exception $ex){
+           echo 'Caught Exception: '.$ex-&gt;getMessage();
+		}
+	}
+
+	/*
+    * Function Name : folderArray
+    * Params 		: componentName
+    * Output 		: Return Array
+    */	
+
+	public function folderArray(){
+
+		$componentArray     =   array();
+		$tscripttype 		=	$this-&gt;typicalScriptType();
+		$gscripttype 		=	$this-&gt;generalSriptType();
+		for($key = 0; $key &lt; count($tscripttype); $key++){
+			$componentArray[$tscripttype[$key]] = $gscripttype[$key];
+		}
+
+		return $componentArray;
+	}
+
+	/*
+    * Function Name : folderArray
+    * Params 		: componentName
+    * Output 		: Return FolderName
+    */	
+
+	public function folderArrayIndex($componentName){
+
+		$componentArray    =   $this-&gt;folderArray();
+		return $componentArray[$componentName];
+	}
+
+	/*
+    * Function Name : ComponentArray
+    * Params 		: folderName
+    * Output 		: Return InstanceComponent
+    */	
+
+	public function ComponentArray(){
+
+		$folderArray    	=   array();
+		$tscripttype 		=	$this-&gt;typicalScriptType();
+		$gscripttype 		=	$this-&gt;generalSriptType();
+		for($key = 0; $key &lt; count($tscripttype); $key++){
+			$folderArray[$gscripttype[$key]] = $tscripttype[$key];
+		}
+
+		return $folderArray;
+	}
+
+	/*
+    * Function Name : ComponentArray
+    * Params 		: folderName
+    * Output 		: Return InstanceComponent
+    */	
+
+	public function ComponentArrayIndex($folderName){
+
+		$folderArray  		=	$this-&gt;ComponentArray();
+		return $folderArray[$folderName];
+	}
+
+	/*
+    * Function Name : ComponentArray
+    * Params 		: folderName
+    * Output 		: Return InstanceComponent
+    */	
+	public function folderValue(){
+
+		$phpTree    			=   new CLint;
+		$countFolder	 		= 	$phpTree-&gt;folderCount;
+		$this-&gt;componentArr 	=   $this-&gt;folderArray();
+
+		$folderFinalArray 		=	array();
+
+		for($key =  0; $key &lt;  $countFolder; $key++){
+
+              $foldername   =   'folder'.$key;
+              $folderVal    =    substr(strrchr($phpTree-&gt;$foldername, "/"),1);
+
+              foreach($this-&gt;componentArr as $ckey=&gt;$value){
+
+               		if($folderVal == $this-&gt;componentArr[$ckey]){
+              			$folderFinalArray[$ckey] = $foldername; 
+              		}	
+               }        			
+        }
+
+        return $folderFinalArray;
+	}
+
+	/*
+    * Function Name : ServiceUrl
+    * Params 		: Table to be Fetched
+    * Output 		: Return ServiceUrl
+    */
+	public function ServiceUrl($finalstring){
+
+		$phpTree     =   new CLint;
+		$instance    =   $phpTree-&gt;surfInstance;
+		$apiScript   =   'api/now/table';
+
+		return $instance."/".$apiScript."/".$finalstring;
+	}
+
+	/*
+    * Function Name : ServiceUrl
+    * Params 		: Table to be Fetched
+    * Output 		: Return ServiceUrl
+    */
+	public function baseString(){
+
+		$phpTree     =   new CLint;
+		$username    =   $phpTree-&gt;username;
+		$password    =   base64_decode($phpTree-&gt;password);
+		$baseString  =   base64_encode($username.':'.$password);
+
+		return $baseString;
+	}
+
+	/*
+    * Function Name : ServiceUrl
+    * Params 		: Table to be Fetched
+    * Output 		: Return ServiceUrl
+    */
+	public function checkScriptType($scriptVerify){
+
+		$scriptType = $this-&gt;typicalScriptType();
+
+		$returnval = 0;
+		foreach($scriptType as $key=&gt;$value){
+
+			if($value == $scriptVerify)
+				$returnval = 1;
+		}
+
+		return $returnval;
+	}
+
+	/*
+    * Function Name : ServiceUrl
+    * Output 		: Create DeltaFile
+    */
+
+	public function deltaFileCreate(){
+
+		$phpTree     =   new CLint;
+
+		$serverUrl   = 	 $this-&gt;ServiceUrl($phpTree-&gt;topMost);	
+		$baseString  =   $this-&gt;baseString();
+
+		$restAPI     =   new REST_API;
+		$response    =    $restAPI-&gt;getRESTAPI($baseString,$serverUrl);
+        $obj         =    json_decode($response,true); 
+
+        $dom                =   new DomDocument("1.0", "UTF-8");
+        $xmlfileNameTag     =   $dom-&gt;createElement('slint');
+        $dom-&gt;appendChild($xmlfileNameTag);
+
+        $filesTag     = $dom-&gt;createElement('files');
+        $xmlfileNameTag-&gt;appendChild($filesTag);
+
+        $fileTag      = $dom-&gt;createElement('file',$obj['result'][0]['sys_id']);
+        $createdTag   = $dom-&gt;createElement('sys_created_on',$obj['result'][0]['sys_created_on']);
+        $updatedTag   = $dom-&gt;createElement('sys_updated_on',$obj['result'][0]['sys_updated_on']);
+
+         $filesTag-&gt;appendChild($fileTag);
+         $filesTag-&gt;appendChild($createdTag);
+         $filesTag-&gt;appendChild($updatedTag);
+
+         $dom-&gt;formatOutput = true;
+         $dom-&gt;save($phpTree-&gt;deltaFile);
+         unset($dom);
+	}
+
+
+	public function EslintFileCreate(){
+
+		$phpTree     =   new CLint;
+
+		$lastquery  = "x_snc_automated_co_code_review_rules?sysparm_query=ORDERBYDESCsys_updated_on&amp;sysparm_fields=sys_id,sys_created_on,sys_updated_on&amp;sysparm_limit=1";	
+
+		$serverUrl  = 	 $this-&gt;ServiceUrl($lastquery);	
+		$baseString  =   $this-&gt;baseString();
+
+		$restAPI     =   new REST_API;
+		$response    =    $restAPI-&gt;getRESTAPI($baseString,$serverUrl);
+        $obj         =    json_decode($response,true); 
+
+        $dom                =   new DomDocument("1.0", "UTF-8");
+        $xmlfileNameTag     =   $dom-&gt;createElement('slint');
+        $dom-&gt;appendChild($xmlfileNameTag);
+
+        $filesTag     = $dom-&gt;createElement('files');
+        $xmlfileNameTag-&gt;appendChild($filesTag);
+
+        $fileTag      = $dom-&gt;createElement('file',$obj['result'][0]['sys_id']);
+        $createdTag   = $dom-&gt;createElement('sys_created_on',$obj['result'][0]['sys_created_on']);
+        $updatedTag   = $dom-&gt;createElement('sys_updated_on',$obj['result'][0]['sys_updated_on']);
+
+         $filesTag-&gt;appendChild($fileTag);
+         $filesTag-&gt;appendChild($createdTag);
+         $filesTag-&gt;appendChild($updatedTag);
+
+         $dom-&gt;formatOutput = true;
+         $dom-&gt;save($phpTree-&gt;eslintXML);
+         unset($dom);
+	}
+	
+
+	public function scriptJSON(){
+
+		$fileArray    =   array(
+  		'BusinessRules'  	=&gt;  	'beslintrc.json',
+  		'ClientScripts'  	=&gt;  	'ceslintrc.json'
+		);
+
+		return $fileArray;
+
+	}
+
+	public function typicalScriptType(){
+
+		//$tScriptName 	=	array();
+		$tScriptName = array('sys_script','sys_script_client','sys_script_include','sysevent_script_action','sys_ui_script','catalog_script_client');
+		return $tScriptName;
+	}
+
+	public function generalSriptType(){
+		//$gScriptName 	=	array();
+		$gScriptName = array('BusinessRules','ClientScripts','ScriptIncludes','ScriptActions','UIScripts','CatalogClientScripts');
+		return $gScriptName;
+	}
+
+	public function RuleScript(){
+
+		$ruleArray = array(
+			'all_scripts'=&gt;array('BusinessRules','ClientScripts','ScriptIncludes','ScriptActions','UIScripts','CatalogClientScripts'),
+			'all_server'=&gt;array('BusinessRules','ScriptIncludes'),
+			'sys_script'=&gt;array('BusinessRules'),
+			'sys_script_client'=&gt;array('ClientScripts'),
+			'catalog_script_client'=&gt;array('CatalogClientScripts'),
+			'sysevent_script_action'=&gt;array('ScriptActions'),
+			'sys_script_include'=&gt;array('ScriptIncludes'),
+			'sys_ui_script'=&gt;array('UIScripts'),
+			'business_rules'=&gt;array('BusinessRules'),
+			'all_client'=&gt;array('ClientScripts','UIScripts','ScriptActions','CatalogClientScripts'),
+			'client_scripts'=&gt;array('ClientScripts'),
+			'ui_scripts'=&gt;array('UIScripts'), 
+			'ui_actions'=&gt;array(), 
+			'ui_pages'=&gt;array(), 
+			'script_includes'=&gt;array('ScriptIncludes'), 
+			'script_actions'=&gt;array('ScriptActions'),
+			'transform_map_scripts'=&gt;array(),
+			'run_script_activities'=&gt;array()
+		);
+
+		return $ruleArray;
+
+	}
+
+	public function readESlint($fileName){
+	  $content 	  =   file_get_contents($fileName);
+	  $contentArr =   json_decode($content,true); 
+	  return $contentArr; 
+	}
+
+	//Apply the Rules based upon the applied
+	public function applyEslintRules($folderArr,$applied,$rule){
+		try{
+			$eslintFile 	= 	".eslintrc.json";
+			$appliedRule 	=	$this-&gt;RuleScript();
+			$appliedrulecnt =   count($appliedRule[$applied]);
+			for($rulecnt = 0; $rulecnt &lt; $appliedrulecnt; $rulecnt++){
+
+				$foldercount = count($folderArr);
+
+				for($file = 0; $file &lt; $foldercount; $file++){
+					$folderVal     =    substr(strrchr($folderArr[$file], "/"),1);
+					if($folderVal == $appliedRule[$applied][$rulecnt]){
+
+						$eslintrj  = $folderArr[$file]."/".$eslintFile;
+						$contentArr = $this-&gt;readESlint($eslintrj);
+						$contentArr["rules"][$rule] = "error";
+						$jsonContent = json_encode($contentArr);
+						file_put_contents($eslintrj,$jsonContent); 
+					}					
+
+				}
+
+			}
+		}
+		catch(Exception $ex){
+			echo $ex-&gt;Message();
+		}
+	 }
+
+	 /* Function : EsLintRules 
+    *  Params   : instance : string, apiscript : string, baseString : string, filepath : string, folderArr : Array,
+                  globals: Array
+    *  Output   : Update the rules in the eslintrc in the script type folder 
+	*/
+      public function FileXMLCreate($baseString,$serverUrl,$fileName){
+
+	      	try{
+
+	      		$restAPI     =   new REST_API;
+				$response    =    $restAPI-&gt;getRESTAPI($baseString,$serverUrl);
+		        $obj         =    json_decode($response,true); 
+
+		        $dom                =   new DomDocument("1.0", "UTF-8");
+		        $xmlfileNameTag     =   $dom-&gt;createElement('slint');
+		        $dom-&gt;appendChild($xmlfileNameTag);
+
+		        $filesTag     = $dom-&gt;createElement('files');
+		        $xmlfileNameTag-&gt;appendChild($filesTag);
+
+		        $fileTag      = $dom-&gt;createElement('file',$obj['result'][0]['sys_id']);
+		        $createdTag   = $dom-&gt;createElement('sys_created_on',$obj['result'][0]['sys_created_on']);
+		        $updatedTag   = $dom-&gt;createElement('sys_updated_on',$obj['result'][0]['sys_updated_on']);
+
+		         $filesTag-&gt;appendChild($fileTag);
+		         $filesTag-&gt;appendChild($createdTag);
+		         $filesTag-&gt;appendChild($updatedTag);
+
+		         $dom-&gt;formatOutput = true;
+		         $dom-&gt;save($fileName);
+		         unset($dom);
+
+		         if(file_exists($fileName))
+		         	return 1;
+		         else
+		         	return 0;
+
+	      	}
+	      	catch(Exception $ex){
+	      		echo $ex-&gt;getMessage();
+	      	}
+		}
+
+		/* Function : applyGlobalRulesinEslint 
+    *  Params   : folderArr : Array, globals: Array
+    *  Output   : Update the globals in the eslintrc in the script type folder 
+	*/
+	
+	public function applyGlobalRulesinEslint($folderArr,$globals,$eslintFile){
+		try{
+			
+			//Update the globals in all eslintrc
+			$foldercount 	= 	count($folderArr);
+			for($file = 0; $file &lt; $foldercount; $file++){
+
+				//FileName
+				$eslintrj  	= 	$folderArr[$file]."/".$eslintFile;
+
+				//Read the content of the existing eslintrc
+				$contentArr = 	$this-&gt;readESlint($eslintrj);
+				$globArr 	= 	explode(",",$globals);
+
+				//update the global content in eslintrc
+				for($k = 0; $k&lt;count($globArr); $k++){
+					if($globArr[$k] != ""){
+						$contentArr["globals"][$globArr[$k]] = 1;
+					}
+				}
+
+				//Write the content
+				$jsonContent = json_encode($contentArr);
+				file_put_contents($eslintrj,$jsonContent); 						
+				
+			}
+			unset($jsonContent);
+			unset($globArr);
+			unset($contentArr);
+			unset($eslintrj);
+			unset($foldercount);
+		}
+		catch(Exception $ex){
+			echo $ex-&gt;getMessage();
+		}	
+	}
+
+	/* Function : EsLintRules 
+    *  Params   : instance : string, apiscript : string, baseString : string, filepath : string, folderArr : Array,
+                  globals: Array
+    *  Output   : Update the rules in the eslintrc in the script type folder 
+	*/	
+                  
+	public function EsLintRules($ruleTable,$instance,$apiScript,$baseString,$filepath,$folderArr,$globals){
+			try
+			{
+				$restAPI = new REST_API;
+				//Query to download the rules from the table (u_code_review_rules)
+				$fetchquery 	=   $ruleTable."?sysparm_query=active=true^mode=eslint^ORDERBYDESCsys_updated_on&amp;sysparm_fields=sys_id,rule_name,applied_to,definition,active,sys_created_on,sys_updated_on,number,mode";
+				$serverURL 		=	 $instance."/".$apiScript."/".$fetchquery;
+				
+				$dom                =   new DomDocument("1.0", "UTF-8");
+		        $xmlfileNameTag     =   $dom-&gt;createElement('slint');
+		        $dom-&gt;appendChild($xmlfileNameTag);
+
+		        $filesTag     = $dom-&gt;createElement('files');
+		        $xmlfileNameTag-&gt;appendChild($filesTag);
+
+				//Download the payload
+				$fileResponse   =   $restAPI-&gt;getRESTAPI($baseString,$serverURL);
+	            $downobj   		= 	json_decode($fileResponse,true);
+
+
+				for($i = 0; $i&lt;count($downobj["result"]); $i++){	
+					
+						//Create a Rule in the Rules Folder
+					//$eslintFFilePath  =  $filepath.$downobj['result'][$i]['rule_name'].'-'.$downobj['result'][$i]['number'].".js";
+					$eslintFFilePath  =  $filepath.'-'.$downobj['result'][$i]['number'].".js";
+					$newFlag		  =	 $restAPI-&gt;fileJSCreate($eslintFFilePath,$downobj['result'][$i]['definition']);
+					
+					//Apply the Rule to the eslintrc if the File was created
+					if($newFlag){
+
+						
+
+							$filesTag     = $dom-&gt;createElement('files');
+			        		$xmlfileNameTag-&gt;appendChild($filesTag);
+
+			        		$fileTag      = $dom-&gt;createElement('file',$downobj['result'][$i]['sys_id']);
+							$nameTag      = $dom-&gt;createElement('name','-'.$downobj['result'][$i]['number']);
+			        		$createdTag   = $dom-&gt;createElement('sys_created_on',$downobj['result'][$i]['sys_created_on']);
+			        		$updatedTag   = $dom-&gt;createElement('sys_updated_on',$downobj['result'][$i]['sys_updated_on']);
+
+			        		$filesTag-&gt;appendChild($fileTag);
+			        		$filesTag-&gt;appendChild($nameTag);
+			         		$filesTag-&gt;appendChild($createdTag);
+			         		$filesTag-&gt;appendChild($updatedTag);
+
+			        		if($downobj["result"][$i]["applied_to"] != ""){
+
+								$applied  	  = 	explode(",",$downobj["result"][$i]["applied_to"]);
+
+								for($j=0;$j&lt;count($applied);$j++){
+									$this-&gt;applyEslintRules($folderArr,$applied[$j],'-'.$downobj['result'][$i]['number']);
+								}
+							}
+						
+					}
+
+					
+
+					unset($newFlag);
+					unset($eslintFFilePath);
+					
+				}
+				$fileName = substr($filepath,0,strrpos(substr($filepath,0,strlen($filepath)-2),"/"))."/eslint.xml";
+				$dom-&gt;formatOutput = true;
+		        $dom-&gt;save($fileName);
+		        unset($dom);
+
+				//Clear the variables in the memory
+				unset($folderArr);
+				unset($applied);
+				unset($downobj);
+				unset($fileResponse);
+				unset($serverURL);
+				unset($fetchquery);
+		    }
+		    catch (Exception $ex){
+			 	echo $ex-&gt;getMessage;
+			}
+
+	}
+
+	public function configureRules($ruleTable,$instance,$apiScript,$baseString,$filepath,$folderArr){
+
+		try{
+
+			$restAPI 		= 	new REST_API;
+			$eslintFile 	= 	".eslintrc.json";
+			$fetchQuery 	= 	$ruleTable."?sysparm_query=active=true";
+			$serverURL 		=	$instance."/".$apiScript."/".$fetchQuery;
+
+			$fileName = substr($filepath,0,strrpos(substr($filepath,0,strlen($filepath)-2),"/"))."/configcond.xml";
+			unlink($fileName);
+
+		    $this-&gt;createConfigRuleXML($fileName);
+		    $appliedRule 	=	$this-&gt;RuleScript();
+
+			$fileResponse   =   $restAPI-&gt;getRESTAPI($baseString,$serverURL);
+	        $downobj   		= 	json_decode($fileResponse,true);
+
+	        for($response = 0; $response&lt;count($downobj["result"]); $response++){   		
+
+			    $applied_to = $downobj["result"][$response]['applied_to'];
+			     //$downobj["result"][$response]['rule']['value']."\n";
+			     $name = $this-&gt;returnRuleName($filepath,$downobj["result"][$response]['rule']['value']);
+
+			    for($scriptCount = 0; $scriptCount&lt;count($appliedRule[$applied_to]); $scriptCount++){
+			    	
+			    	if($name != "" ){
+			    		$objDOM2  	= 	new DOMDocument();
+						$objDOM2-&gt;load($fileName);
+						$xml      	= 	simplexml_import_dom($objDOM2);
+
+				    	$storedFolderName = $appliedRule[$applied_to][$scriptCount];
+
+				    	$xmlFFolder = $xml-&gt;$storedFolderName-&gt;addChild("files");
+						$xmlFFolder-&gt;addChild('applied_to',$downobj["result"][$response]['applied_to']);
+						$xmlFFolder-&gt;addChild('condition',$downobj["result"][$response]['filter_condition']);
+						$xmlFFolder-&gt;addChild('rulename',$name);
+						$xml-&gt;asXML($fileName);	
+
+						$foldercount = count($folderArr);
+
+						for($file = 0; $file &lt; $foldercount; $file++){
+							$folderVal     =    substr(strrchr($folderArr[$file], "/"),1);
+							if($folderVal == $storedFolderName){
+
+								$eslintrj  = $folderArr[$file]."/".$eslintFile;
+								$contentArr = $this-&gt;readESlint($eslintrj);
+								if($contentArr["rules"][trim($name)] != "")
+									$contentArr["rules"][trim($name)] = "off";
+								$jsonContent = json_encode($contentArr);
+								file_put_contents($eslintrj,$jsonContent); 
+							}					
+
+						}
+			    	}
+			    	
+			    }
+			    
+				
+
+	        }	
+
+		}catch(Exception $ex){
+
+		}
+	}
+
+	public function createConfigRuleXML($fileName){
+
+		$dom                =   new DomDocument("1.0", "UTF-8");
+		$xmlfileNameTag     =   $dom-&gt;createElement('slint');
+		$dom-&gt;appendChild($xmlfileNameTag);
+
+		$appliedRule 	=	$this-&gt;RuleScript();
+		for($i = 0; $i &lt; count($appliedRule['all_scripts']); $i++){
+
+			$filesTag     = $dom-&gt;createElement($appliedRule['all_scripts'][$i]);
+		    $xmlfileNameTag-&gt;appendChild($filesTag);
+		    
+		}
+
+		$dom-&gt;formatOutput = true;
+		$dom-&gt;save($fileName);
+		unset($dom);
+
+	}
+
+	public function returnRuleName($filepath,$sysID){
+
+		$fileName   = substr($filepath,0,strrpos(substr($filepath,0,strlen($filepath)-2),"/"))."/eslint.xml";
+
+		$xmlFile    =  $fileName; 	
+		$objDOM1  	=  new DOMDocument();
+		$objDOM1-&gt;load($xmlFile);
+		$xml 		= 	simplexml_import_dom($objDOM1);
+
+	    $insertfilesCounter =   count($xml-&gt;files);
+	    $fileScriptFile 	= 	"";
+	    
+	    for($insertkey=0; $insertkey&lt; $insertfilesCounter; $insertkey++){
+
+				if($xml-&gt;files[$insertkey]-&gt;file == $sysID){
+
+					$fileScriptFile = $xml-&gt;files[$insertkey]-&gt;name;
+					break;
+
+			}
+	   }
+	   unset($xmlFile);
+	   unset($objDOM1);
+	   unset($xml);
+	   unset($insertkey);
+	   unset($insertfilesCounter);
+
+	   return $fileScriptFile;
+
+	}
+
+}</file_content>
+        <file_name>basic_functions.php</file_name>
+        <path>acr</path>
+        <sys_class_name>x_snc_automated_co_acr_sources</sys_class_name>
+        <sys_created_by>hareeshhere</sys_created_by>
+        <sys_created_on>2017-04-05 16:17:55</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_id>95f14040db42f20043abfd441d9619e7</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name/>
+        <sys_package display_value="Automated Code Review" source="x_snc_automated_co">5501bca61315b240a5e739fed144b06d</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Automated Code Review">5501bca61315b240a5e739fed144b06d</sys_scope>
+        <sys_update_name>x_snc_automated_co_acr_sources_95f14040db42f20043abfd441d9619e7</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2017-04-06 06:50:58</sys_updated_on>
+    </x_snc_automated_co_acr_sources>
+</record_update>

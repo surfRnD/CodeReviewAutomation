@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="x_snc_automated_co_acr_sources">
+    <x_snc_automated_co_acr_sources action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <environment>windows</environment>
+        <file_content>&lt;?php
+error_reporting(0);
+include_once('acr/include.php');
+include_once('acr/basic_functions.php');
+include_once('acr/rest_call.php');
+
+class ACR{
+
+	protected $argument;
+	protected $pathName;
+	protected $bFuncObj;
+	protected $restAPI;
+	protected $eslintFile = ".eslintrc.json";
+	protected $ruleTable  = "x_snc_automated_co_code_review_rules";
+	protected $ruleTable1 = "x_snc_automated_co_code_review_rule_conditions"; 
+	
+
+	/** Init ***/
+	/*
+    *   Initialize the variables
+    *   Now grab the command line arguments  
+	*/
+	public function __construct(){
+
+	}
+
+	/** Fuction Executes Here ***/
+	/*
+    *   Function :	Execute
+    *	Params   : 	Null
+    *   Output   :  Create the scripts and Rules in the local system  
+	*/
+	public function execute($argv){
+
+		$this-&gt;argument 	= 	$argv;
+		$this-&gt;bFuncObj 	= 	new BasicFunction;
+		$this-&gt;restAPI 		=	new REST_API;
+		//Check the total number of arguments
+		$filecount 			= 	count($this-&gt;argument);
+		
+		if($filecount == 5){
+
+			$errorFlag = "";			
+			try{
+
+				$directoryList 		= 	explode(",",$this-&gt;argument[4]);
+				$this-&gt;pathName		=   'acrfolder';
+
+				if(file_exists($this-&gt;pathName)){
+					if(substr(PHP_OS,0,3) == "WIN")
+						exec('rmdir /S/Q '.$this-&gt;pathName);
+					else
+						exec('rm -rf '.$this-&gt;pathName);
+				}
+
+
+				//Checks whether the Folder is writable
+				if (!file_exists($this-&gt;pathName)) {	
+
+					mkdir($this-&gt;pathName."/",0777);
+
+					if(!is_writable($this-&gt;pathName)){
+						echo "Error: Folder is Not writable\n";
+					
+					exit(0);
+					}
+
+					//Assign the values
+					$username 		= 	$this-&gt;argument[1];
+					$password 		= 	$this-&gt;argument[2];
+					$baseString  	=   base64_encode($username.':'.$password);
+					$instance    	=   $this-&gt;argument[3];
+					$apiScript   	=   'api/now/table';
+					$eslastquery  	= 	$this-&gt;ruleTable."?sysparm_query=active=true^ORDERBYDESCsys_updated_on&amp;sysparm_fields=sys_id,sys_created_on,sys_updated_on&amp;sysparm_limit=1";
+					$delastquery  	= 	"sys_update_version?sysparm_query=ORDERBYDESCsys_updated_on&amp;sysparm_fields=sys_id,sys_created_on,sys_updated_on,name&amp;sysparm_limit=1";
+
+					//Constructing the URL		
+					$serverURL    	=    $instance."/".$apiScript."/".$eslastquery;
+					$dserverURL    	=    $instance."/".$apiScript."/".$delastquery;				
+					$response    	=    $this-&gt;restAPI-&gt;getRESTAPI($baseString,$serverURL);
+			        $obj         	=    json_decode($response,true);		        		
+
+			        //Checking the Code Review Rules exists in the current instance
+			        if($obj['error']['message'])
+			        	$ruleAvailable = 0;
+			        else
+			        	$ruleAvailable = 1;
+
+					//Create Configuration.php
+					$content  = $this-&gt;bFuncObj-&gt;configurationSetting($this-&gt;pathName,$instance,$username,$password,$directoryList,$ruleAvailable); 
+					$confFlag =	$this-&gt;bFuncObj-&gt;fileCreate('acr/configuration.php',$content);
+					
+					if($confFlag == 1){
+						
+						//Appending include.php
+						$includepath = 'acr/include.php';
+						$fp = fopen($includepath,"w");
+						$getcontent = "&lt;?php \n include_once('acr/configuration.php');\n ?&gt;";
+						fputs($fp,$getcontent);
+						fclose($fp);
+						
+
+						//Create Script Type Folder and Files
+						$deltaFile 		= 	$this-&gt;pathName."/delta.xml";
+						$eslintFile 	= 	$this-&gt;pathName."/eslint.xml";
+						$xmlFile 		= 	$this-&gt;pathName."/configuration.xml";
+						$directoryName 	= 	$this-&gt;pathName;
+						$folderCount 	= 	count($directoryList);
+						$folderArr 		= 	array();
+
+						for($k = 0; $k &lt; $folderCount; $k++){
+							$folderArr[$k] = $directoryName."/".$directoryList[$k];
+						}
+
+						$globals 		= 	$this-&gt;download($directoryName,$deltaFile,$folderCount,$baseString,$instance,$apiScript,$folderArr,$xmlFile);
+
+						if($globals != "," || $globals != " ")
+							$this-&gt;bFuncObj-&gt;applyGlobalRulesinEslint($folderArr,$globals,$this-&gt;eslintFile);
+						
+		        		$val = 1;
+		        		mkdir($directoryName."/rules/",0777);
+
+		        		if($ruleAvailable == 1){
+		
+							$this-&gt;bFuncObj-&gt;EsLintRules($this-&gt;ruleTable,$instance,$apiScript,$baseString,$directoryName."/rules/",$folderArr,$globals);
+							$this-&gt;bFuncObj-&gt;configureRules($this-&gt;ruleTable1,$instance,$apiScript,$baseString,$directoryName."/rules/",$folderArr);
+
+							//$val = $this-&gt;bFuncObj-&gt;FileXMLCreate($baseString,$serverURL,$eslintFile);
+							//$val = $this-&gt;bFuncObj-&gt;FileXMLCreate($baseString,$dserverURL,$deltaFile);
+							//echo "Code Review Rules Created\n";
+						}
+						else{
+							//echo "Code Review Rules Table does not exist\n";
+						}
+						
+						if($val == 1)
+							echo "Code Review Initial Configuration Page has been setup\n";
+						else
+							echo "Error while downloading\n";
+					}
+					else{
+						echo "Error : Can't create initial configuration setting\n";
+					}		
+				
+
+					}
+					else{
+						echo "Error : Folder Already Exists.\n";
+					}
+				}
+				catch(Exception $ex){
+					echo $ex-&gt;getMessage();
+				}
+			//}
+		}
+		else{
+			echo "Error: Format php acr.php username password instancename scripttype1,scripttype2\n";
+		}
+
+	}
+
+   
+	/*
+    *   Function :	download
+    *	Params   : 	folderName : string, deltaFile : string, countFolder : integer, baseString : string....
+    *   Output   :  Create the script and update the configuration.xml 
+	*/	
+  public function download($folderName,$deltaFile,$countFolder,$baseString,$instance,$apiScript,$folderArr,$xmlFile){
+
+	$componentArray 	= 	$this-&gt;bFuncObj-&gt;componentArray();
+    $dom                =   new DomDocument("1.0", "UTF-8");
+    $xmlfileNameTag     =   $dom-&gt;createElement('slint');
+    $dom-&gt;appendChild($xmlfileNameTag);
+
+    $globals      = "";
+
+    for($key =  0; $key &lt;  $countFolder; $key++)
+       {
+           $foldername    =   'folder'.$key;
+           $folderVal     =    substr(strrchr($folderArr[$key], "/"),1);
+
+            $serverURL    =    $instance."/".$apiScript."/".$componentArray[$folderVal];
+            $response     =    $this-&gt;restAPI-&gt;getRESTAPI($baseString,$serverURL);
+            $obj          =    json_decode($response,true);
+            $totalFiles   =    count($obj["result"]);
+
+            //$finalCount   =    $totalFiles;
+            $finalCount   =    5;
+            $folderNameTag  =   $dom-&gt;createElement($foldername);
+            $xmlfileNameTag-&gt;appendChild($folderNameTag);  
+            
+
+          for($file = 0; $file &lt; $finalCount; $file++)
+            { 
+              $filesTag     = $dom-&gt;createElement('files');
+              $folderNameTag-&gt;appendChild($filesTag);
+    
+                
+                if($obj['result'][$file]['active'] == true || $obj['result'][$file]['name'] == 'true')
+                {
+                  
+                  $origfile   =   $obj['result'][$file]['name'];
+                  $filename   =   $origfile;
+                  if(strlen($origfile)&gt;15)
+                    $filename = substr($origfile,0,14);
+
+                    $filename = str_replace(' ', '_', $filename);
+
+
+                    $finalFileWExt  =   $filename."_".$obj['result'][$file]['sys_id'].".js";
+                    $finalFileName  =   $folderArr[$key]."/".$finalFileWExt;
+                    
+                    if(trim($finalFileWExt) != "_.js"){
+
+	                    $apiURL         =   $serverURL."/".$obj['result'][$file]['sys_id'];
+	                    $fileResponse   =   $this-&gt;restAPI-&gt;getRESTAPI($baseString,$apiURL);
+	                    $jsonObj   		= 	json_decode($fileResponse,true);        
+	                    
+
+	                    $this-&gt;restAPI-&gt;fileCreate($finalFileName,$jsonObj['result']['script']);
+
+	                    $modifiedarray = stat($finalFileName);
+
+	                    if($componentArray[$folderVal] == 'sys_script_include' || $componentArray[$folderVal] == 'sys_ui_script')
+	                    	$globals .= $obj['result'][$file]['name'].",";
+
+	                    $fileTag      = $dom-&gt;createElement('file',$finalFileWExt); 
+	                    $sysIDTag     = $dom-&gt;createElement('sys_id',$jsonObj['result']['sys_id']);
+	                    $createdTag   = @$dom-&gt;createElement('sys_created_on',strtotime($jsonObj['result']['sys_created_on']));
+	                    $updatedTag   = @$dom-&gt;createElement('sys_updated_on',strtotime($jsonObj['result']['sys_updated_on']));
+	                    $modifiedTag  = $dom-&gt;createElement('mTime',$modifiedarray['mtime']);
+	                    $cTimeTag     = $dom-&gt;createElement('cTime',$modifiedarray['ctime']);
+
+	                    $filesTag-&gt;appendChild($fileTag);
+	                    $filesTag-&gt;appendChild($sysIDTag);
+	                    $filesTag-&gt;appendChild($createdTag);
+	                    $filesTag-&gt;appendChild($updatedTag);
+	                    $filesTag-&gt;appendChild($modifiedTag);
+	                    $filesTag-&gt;appendChild($cTimeTag);
+
+	                    flush();
+                	}
+                  
+                }
+
+              }
+              $elsintFArr = 'acr/beslintrc.json';
+              $strContent = file_get_contents($elsintFArr);
+              $esfilename = $folderArr[$key]."/.eslintrc.json";
+              $this-&gt;restAPI-&gt;fileCreate($esfilename,$strContent); 
+
+              //echo $this-&gt;bFuncObj-&gt;folderArrayIndex($componentArray[$folderVal])." downloaded\n";
+          
+          } 
+          $dom-&gt;formatOutput = true;
+          $dom-&gt;save($xmlFile);
+          unset($dom);
+          return $globals;
+      }
+
+  	}
+
+$acr = 	new ACR;
+$acr-&gt;execute($argv);
+
+
+?&gt;</file_content>
+        <file_name>acr.php</file_name>
+        <path>acr</path>
+        <sys_class_name>x_snc_automated_co_acr_sources</sys_class_name>
+        <sys_created_by>hareeshhere</sys_created_by>
+        <sys_created_on>2017-04-05 16:16:43</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_id>28d18040db42f20043abfd441d961926</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name/>
+        <sys_package display_value="Automated Code Review" source="x_snc_automated_co">5501bca61315b240a5e739fed144b06d</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Automated Code Review">5501bca61315b240a5e739fed144b06d</sys_scope>
+        <sys_update_name>x_snc_automated_co_acr_sources_28d18040db42f20043abfd441d961926</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2017-04-06 06:52:40</sys_updated_on>
+    </x_snc_automated_co_acr_sources>
+</record_update>

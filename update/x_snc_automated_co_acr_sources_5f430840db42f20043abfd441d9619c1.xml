@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="x_snc_automated_co_acr_sources">
+    <x_snc_automated_co_acr_sources action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <environment>windows</environment>
+        <file_content>&lt;?php
+
+include('acr/include.php');
+include('acr/basic_functions.php');
+include('acr/rest_call.php');
+
+class GlobalSync{
+
+	protected $table = 'x_snc_automated_co_eslintglobals';
+
+	public function execute(){
+
+	
+		$phpTree    =   new CLint;
+		$bFunc 		=	new BasicFunction;
+		$rest_call  =   new REST_API;
+
+		$scriptArr  =   $bFunc-&gt;RuleScript();
+
+		$globalArr	=	array();
+
+		$baseString		=	 $bFunc-&gt;baseString();
+		$serverURL 		=	 $bFunc-&gt;ServiceUrl($this-&gt;table);
+
+		$sys_ver_response   =   $rest_call-&gt;getRESTAPI($baseString,$serverURL);
+		$downobj      	    =   json_decode($sys_ver_response,true);
+
+		$countResult 	=	count($downobj[result]);
+		for($key = 0; $key &lt; $countResult; $key++)
+		{
+
+			$applied_string = $downobj[result][$key]['appliedto'];
+			$appliedArr     = explode(",",$applied_string);
+
+			for($appliedcnt = 0; $appliedcnt &lt; count($appliedArr); $appliedcnt++){
+				$scriptTypeArr = $scriptArr[$appliedArr[$appliedcnt]];
+
+				for($i = 0; $i&lt;count($scriptTypeArr);$i++){
+					$globalArr[$scriptTypeArr[$i]][$downobj[result][$key]['globalidentifier']] = 1;
+				}
+
+			} 
+		}
+		unset($downobj);
+		unset($sys_ver_response);
+		unset($serverURL);
+		unset($baseString);
+
+		for($foldercnt = 0;$foldercnt &lt; $phpTree-&gt;folderCount; $foldercnt++ )
+		{
+			$folderVal = "folder".$foldercnt;
+
+			$finalFolder = substr($phpTree-&gt;$folderVal,strrpos($phpTree-&gt;$folderVal,"/")+1);
+			foreach($globalArr as $key=&gt;$val){
+				if($key == $finalFolder)
+				  {
+				  	$eslintrj = $phpTree-&gt;$folderVal."/.eslintrc.json";
+				  	//Read the content of the existing eslintrc
+					$contentArr = 	$bFunc-&gt;readESlint($eslintrj);
+					
+					unset($contentArr['globals']);
+
+					//update the global content in eslintrc
+					foreach($globalArr[$key] as $key1=&gt;$val1)
+						$contentArr["globals"][$key1] = $val1;
+						
+					//Write the content
+					$jsonContent = json_encode($contentArr);
+					file_put_contents($eslintrj,$jsonContent);
+				  }
+
+
+			}
+         
+		}
+	}
+
+}
+
+
+?&gt;</file_content>
+        <file_name>globalsync.php</file_name>
+        <path>acr</path>
+        <sys_class_name>x_snc_automated_co_acr_sources</sys_class_name>
+        <sys_created_by>hareeshhere</sys_created_by>
+        <sys_created_on>2017-04-05 16:23:11</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_id>5f430840db42f20043abfd441d9619c1</sys_id>
+        <sys_mod_count>4</sys_mod_count>
+        <sys_name/>
+        <sys_package display_value="Automated Code Review" source="x_snc_automated_co">5501bca61315b240a5e739fed144b06d</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Automated Code Review">5501bca61315b240a5e739fed144b06d</sys_scope>
+        <sys_update_name>x_snc_automated_co_acr_sources_5f430840db42f20043abfd441d9619c1</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2017-04-06 07:06:04</sys_updated_on>
+    </x_snc_automated_co_acr_sources>
+</record_update>

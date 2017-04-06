@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="x_snc_automated_co_acr_sources">
+    <x_snc_automated_co_acr_sources action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <environment>windows</environment>
+        <file_content>
+&lt;?php
+
+error_reporting(0);
+//Dependent Files
+include_once('acr/rest_call.php');
+include_once('acr/basic_functions.php');
+include_once('acr/include.php');
+
+Class ESlintRules{
+
+	protected $eslintFile;
+	protected $bFuncObj;
+	protected $table_name = "x_snc_automated_co_code_review_rules";
+	protected $table_name1 = "x_snc_automated_co_code_review_rule_conditions";
+	protected $fetchquery = "?sysparm_query=ORDERBYDESCsys_updated_on&amp;sysparm_fields=sys_id,rule_name,applied_to,definition,number";
+	protected $lastquery  = "?sysparm_query=active=true^ORDERBYDESCsys_updated_on&amp;sysparm_fields=sys_id,sys_created_on,sys_updated_on&amp;sysparm_limit=1";	
+	
+	public function __construct(){
+
+		$this-&gt;eslintFile = ".eslintrc.json";
+	}
+
+	public function readESlint($fileName){
+	  $content 	  =   file_get_contents($fileName);
+	  $contentArr =   json_decode($content,true); 
+	  return $contentArr; 
+	}
+
+	public function createRules(){
+
+		try{
+			$this-&gt;bFuncObj		=	new BasicFunction;
+			$restAPI    		=   new REST_API;
+			$phpTree    		=   new CLint;
+
+			$lastsyncedID 		=   $this-&gt;lastSyncedEslint();
+			
+			$serverURL 		=	 $this-&gt;bFuncObj-&gt;ServiceUrl($this-&gt;table_name.$this-&gt;fetchquery);
+			$baseString		=	 $this-&gt;bFuncObj-&gt;baseString();
+			$downobj      	=    $this-&gt;downloadJSON($baseString,$serverURL);
+
+			$foldercount    =    $phpTree-&gt;folderCount;
+			$folderArr		=	array();
+			$changedhappened = 0;
+			for($cnt = 0; $cnt &lt; $foldercount; $cnt++){
+				$folderkey = "folder".$cnt;
+				$folderArr[$cnt] = $phpTree-&gt;$folderkey;
+			}
+
+			for($i = 0; $i&lt;count($downobj["result"]);$i++){
+
+				if($downobj["result"][$i]["sys_id"] == $lastsyncedID)
+					break;
+				else
+					{ 
+							$eslintFFilePath  =  $phpTree-&gt;eslintLoc.$downobj['result'][$i]['rule_name']."-".$downobj['result'][$i]['number'].".js";
+							$newFlag		=	$restAPI-&gt;fileJSCreate($eslintFFilePath,$downobj['result'][$i]['definition']);
+							//file_put_contents($eslintFFilePath,$downobj['result'][$i]['u_definition']);
+							$applied   = explode(",",$downobj["result"][$i]["applied_to"]);
+							for($j=0;$j&lt;count($applied);$j++){
+								$this-&gt;bFuncObj-&gt;applyEslintRules($folderArr,$applied[$j],$downobj['result'][$i]['rule_name']);
+								$changedhappened = 1;
+							}
+							//$downobj["result"][$i]["sys_id"];
+
+				    }
+			}
+			ob_flush();
+
+			if($changedhappened == 1)
+				$this-&gt;EslintFile();
+
+			/*if($i &gt; 0)
+				echo "Rules Created Successfully\n";
+		    else
+		    	 echo "No Rules Found\n";*/
+
+		}catch(Exception $ex){
+			//echo $ex-&gt;getMessage();
+		}
+
+
+		
+
+	}
+
+	public function lastSyncedEslint(){
+		$phpTree    =   new CLint;
+		$xmlFile    =  $phpTree-&gt;eslintXML;	
+		$objDOM1  	=  new DOMDocument();
+		$objDOM1-&gt;load($xmlFile);
+		$xml 		= 	simplexml_import_dom($objDOM1);
+		$eslintSysID = $xml-&gt;files-&gt;file;
+		unset($phpTree);
+		unset($xmlFile);
+		unset($objDOM1);
+		unset($xml);
+		return $eslintSysID;
+	}
+
+	/*
+	*	Function :	downloadJSON
+	*	params   :  $baseString : authentication, $serverURL : url
+	*   output   :  Returns the payload 
+	*/
+	public function downloadJSON($baseString,$serverURL){
+
+		try{
+
+			$restAPI    		=   new REST_API;
+			$sys_ver_response   =    $restAPI-&gt;getRESTAPI($baseString,$serverURL);
+			$downobj      	    =    json_decode($sys_ver_response,true);
+			return $downobj;
+
+		}catch(Exception $ex){
+			//echo $ex-&gt;getMessage();
+		}
+		
+	}
+
+	/*
+	*	Function :	deltaFile
+	*	params   :  Null
+	*   output   :  Update the delta XML with the last updated SysID 
+	*/
+	public function EslintFile(){
+		
+		try{
+
+			$phpTree    =   new CLint;
+			$updateVersion 		= 	$this-&gt;table_name.$this-&gt;lastquery;
+			$deltaFile  		=   $phpTree-&gt;eslintXML;
+			$serverURL    		=   $this-&gt;bFuncObj-&gt;ServiceUrl($updateVersion);
+			$baseString			=	$this-&gt;bFuncObj-&gt;baseString();
+			$obj          		=   $this-&gt;downloadJSON($baseString,$serverURL); 
+			$topmostSysID 		= 	$obj["result"][0]['sys_id'];
+			
+			$objDOM1    =   new DOMDocument();
+      		$objDOM1-&gt;load($deltaFile);
+      		$xml = simplexml_import_dom($objDOM1);
+      		
+      		if($xml-&gt;files-&gt;file != $topmostSysID){
+        		$xml-&gt;files-&gt;file = $topmostSysID;
+        		$xml-&gt;files-&gt;sys_created_on = $obj["result"][0]['sys_created_on'];
+        		$xml-&gt;files-&gt;sys_updated_on = $obj["result"][0]['sys_updated_on'];
+        		$xml-&gt;files-&gt;created = $obj["result"][0]['sys_created_on'];
+        		$xml-&gt;files-&gt;updated = $obj["result"][0]['sys_updated_on'];
+        		$xml-&gt;asXML($deltaFile);
+        	}	
+
+			unset($phpTree);
+			unset($bFunc);
+			unset($restAPI);
+			unset($updateVersion);
+			unset($deltaFile);
+			unset($obj);
+			unset($deltaValue);
+
+		}catch(Exception $ex){
+			//echo $ex-&gt;getMessage();
+		}	
+	}
+
+	/*
+	*	Function :	deltaFile
+	*	params   :  Null
+	*   output   :  Update the delta XML with the last updated SysID 
+	*/
+	public function removeRules(){
+		
+		try{
+
+			$phpTree    =   new CLint;
+			$restAPI    =   new REST_API;
+			$bFunc		=	new BasicFunction;
+			$instance 	= 	$phpTree-&gt;surfInstance;
+			$apiScript 	= 	'api/now/table';
+			$baseString			=	$bFunc-&gt;baseString();
+			//echo $phpTree-&gt;eslintLoc;
+			if(file_exists($phpTree-&gt;eslintLoc)){
+
+				if(substr(PHP_OS,0,3) == "WIN")
+						exec('rmdir /S/Q '.$phpTree-&gt;eslintLoc);
+				else
+						exec('rm -rf '.$phpTree-&gt;eslintLoc);
+
+				mkdir($phpTree-&gt;eslintLoc,0777);
+
+				$foldercount    =    $phpTree-&gt;folderCount;
+
+				$folderArr		=	 array();
+				$globals  	    =    array();
+
+				$changedhappened = 0;
+
+				for($cnt = 0; $cnt &lt; $foldercount; $cnt++){
+					$folderkey  =  "folder".$cnt;
+					$folderArr[$cnt] = $phpTree-&gt;$folderkey;
+					$filename   =  $phpTree-&gt;$folderkey."/".$this-&gt;eslintFile;
+              		$strContent =  file_get_contents($filename);
+              		$contentArr =  json_decode($strContent,true);
+              		$globals =  $contentArr['globals'];
+              		unlink($filename);
+              		$elsintFArr = 'acr/beslintrc.json'; 
+              		$strContent =  file_get_contents($elsintFArr);
+              		$contentArr =  json_decode($strContent,true);
+              		if(count($globals)&gt;0)
+              			unset($contentArr['globals']);
+              		$contentArr['globals'] = $globals;
+              		$restAPI-&gt;fileCreate($filename,json_encode($contentArr));
+				}
+
+				if($globals != "," || $globals != " ")
+					$bFunc-&gt;applyGlobalRulesinEslint($folderArr,$globals,$this-&gt;eslintFile);
+
+				$bFunc-&gt;EsLintRules($this-&gt;table_name,$instance,$apiScript,$baseString,$phpTree-&gt;eslintLoc,$folderArr,$globals);
+				
+				$this-&gt;confiureCondition($folderArr);
+			}
+
+		}catch(Exception $ex){
+			//echo $ex-&gt;getMessage();
+		}	
+	}
+
+	public function confiureCondition($folderArr){
+
+		try{
+
+			$phpTree    =   new CLint;
+			$restAPI    =   new REST_API;
+			$bFunc		=	new BasicFunction;
+			$instance 	= 	$phpTree-&gt;surfInstance;
+			$apiScript 	= 	'api/now/table';
+			$baseString			=	$bFunc-&gt;baseString();
+			$bFunc-&gt;configureRules($this-&gt;table_name1,$instance,$apiScript,$baseString,$phpTree-&gt;eslintLoc,$folderArr);
+			
+		}
+		catch(Exception $ex){
+
+		}
+
+	}
+
+}
+
+
+
+
+</file_content>
+        <file_name>configrulesync.php</file_name>
+        <path>acr</path>
+        <sys_class_name>x_snc_automated_co_acr_sources</sys_class_name>
+        <sys_created_by>hareeshhere</sys_created_by>
+        <sys_created_on>2017-04-05 16:20:26</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_id>cba2c040db42f20043abfd441d9619e3</sys_id>
+        <sys_mod_count>4</sys_mod_count>
+        <sys_name/>
+        <sys_package display_value="Automated Code Review" source="x_snc_automated_co">5501bca61315b240a5e739fed144b06d</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Automated Code Review">5501bca61315b240a5e739fed144b06d</sys_scope>
+        <sys_update_name>x_snc_automated_co_acr_sources_cba2c040db42f20043abfd441d9619e3</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2017-04-06 06:52:23</sys_updated_on>
+    </x_snc_automated_co_acr_sources>
+</record_update>

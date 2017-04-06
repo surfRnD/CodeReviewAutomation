@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="x_snc_automated_co_acr_sources">
+    <x_snc_automated_co_acr_sources action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <environment>windows</environment>
+        <file_content>&lt;?php
+class CLint{
+public $directoryName='acrfolder';
+public $surfInstance='https://mydev.service-now.com';
+public $username='admin';
+public $password='YWRtaW4x';
+public $xmlFile='acrfolder/configuration.xml';
+public $folderCount='6';
+public $updateVersion = 'sys_update_version?sysparm_query=ORDERBYDESCsys_updated_on&amp;sysparm_fields=sys_id,sys_created_on,sys_updated_on,name&amp;sysparm_limit=1';
+public $topMost = 'sys_update_version?sysparm_query=ORDERBYDESCsys_updated_on&amp;sysparm_fields=sys_id,sys_created_on,sys_updated_on,name';
+public $deltaFile='acrfolder/delta.xml';
+public $folder0='acrfolder/BusinessRules';
+public $folder1='acrfolder/ClientScripts';
+public $folder2='acrfolder/ScriptIncludes';
+public $folder3='acrfolder/ScriptActions';
+public $folder4='acrfolder/UIScripts';
+public $folder5='acrfolder/CatalogClientScripts';
+public $eslintLoc='acrfolder/rules/';
+public $eslintXML='acrfolder/eslint.xml';
+public $ruleAvailable=1;
+} ?&gt;
+</file_content>
+        <file_name>configuration.php</file_name>
+        <path>acr</path>
+        <sys_class_name>x_snc_automated_co_acr_sources</sys_class_name>
+        <sys_created_by>hareeshhere</sys_created_by>
+        <sys_created_on>2017-04-05 16:21:12</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_id>89e28440db42f20043abfd441d961921</sys_id>
+        <sys_mod_count>4</sys_mod_count>
+        <sys_name/>
+        <sys_package display_value="Automated Code Review" source="x_snc_automated_co">5501bca61315b240a5e739fed144b06d</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Automated Code Review">5501bca61315b240a5e739fed144b06d</sys_scope>
+        <sys_update_name>x_snc_automated_co_acr_sources_89e28440db42f20043abfd441d961921</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2017-04-06 06:51:59</sys_updated_on>
+    </x_snc_automated_co_acr_sources>
+</record_update>

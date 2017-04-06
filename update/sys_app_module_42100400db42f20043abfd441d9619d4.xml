@@ -10,37 +10,37 @@
         <hint/>
         <homepage/>
         <image/>
-        <link_type>DIRECT</link_type>
+        <link_type>LIST</link_type>
         <map_page/>
-        <mobile_title>Downloads</mobile_title>
+        <mobile_title>ACR Sources</mobile_title>
         <mobile_view_name>Mobile</mobile_view_name>
-        <name/>
-        <order>700</order>
+        <name>x_snc_automated_co_acr_sources</name>
+        <order>900</order>
         <override_menu_roles>false</override_menu_roles>
-        <query>/x_snc_automated_co_Automated%20Code%20Review%20Artifacts.do</query>
+        <query/>
         <report/>
-        <roles/>
+        <roles>x_snc_automated_co_acr_sources_user</roles>
         <survey/>
         <survey_overwrite>true</survey_overwrite>
         <sys_class_name>sys_app_module</sys_class_name>
-        <sys_created_by>admin</sys_created_by>
-        <sys_created_on>2017-03-20 07:33:20</sys_created_on>
+        <sys_created_by>hareeshhere</sys_created_by>
+        <sys_created_on>2017-04-05 16:08:40</sys_created_on>
         <sys_customer_update>true</sys_customer_update>
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
-        <sys_id>845de362dba5360043abfd441d96196d</sys_id>
+        <sys_id>42100400db42f20043abfd441d9619d4</sys_id>
         <sys_mod_count>1</sys_mod_count>
-        <sys_name>Downloads</sys_name>
+        <sys_name>ACR Sources</sys_name>
         <sys_overrides/>
         <sys_package display_value="Automated Code Review" source="x_snc_automated_co">5501bca61315b240a5e739fed144b06d</sys_package>
         <sys_policy/>
         <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
         <sys_scope display_value="Automated Code Review">5501bca61315b240a5e739fed144b06d</sys_scope>
-        <sys_update_name>sys_app_module_845de362dba5360043abfd441d96196d</sys_update_name>
-        <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2017-03-30 14:39:45</sys_updated_on>
+        <sys_update_name>sys_app_module_42100400db42f20043abfd441d9619d4</sys_update_name>
+        <sys_updated_by>hareeshhere</sys_updated_by>
+        <sys_updated_on>2017-04-05 16:28:34</sys_updated_on>
         <timeline_page/>
-        <title>Downloads</title>
+        <title>ACR Sources</title>
         <uncancelable>false</uncancelable>
         <view_name/>
         <window_name/>

@@ -1,0 +1,542 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="x_snc_automated_co_acr_sources">
+    <x_snc_automated_co_acr_sources action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <environment>windows</environment>
+        <file_content>#!/usr/local/bin/php
+
+&lt;?php
+error_reporting(0);
+//Dependent Files
+
+include_once('acr/configrulesync.php');
+
+//API For ESLINT
+class SLINT{
+
+	protected $argument;
+	protected $bFuncObj;
+
+	/** Constructor ***/
+	/*
+    *   Initialize the variables
+    *   Now grab the command line arguments  
+	*/
+	public function __construct($argv){
+
+		$this-&gt;argument = $argv;
+	}
+
+	/*
+	* Function 	:	updateConfigurationXML
+	* Params 	:	$configFile: XML File,....
+	* Output 	:	Update the configuration XML 
+	*/
+	public function updateConfigurationXML($configFile,$finalFFileName,$storedFolderName,$finalFileWExt,$sysID,$sys_created_on,$sys_updated_on){
+
+		try{
+
+			$xmlFile 		=   $configFile;
+			$statarray 		= 	stat($finalFFileName);
+	            			// Update the XML File
+			$objDOM2  	= 	new DOMDocument();
+			$objDOM2-&gt;load($xmlFile);
+			$xml      	= 	simplexml_import_dom($objDOM2);
+			
+			$xmlFFolder = $xml-&gt;$storedFolderName-&gt;addChild("files");
+			$xmlFFolder-&gt;addChild('file',$finalFileWExt);
+			$xmlFFolder-&gt;addChild('sys_id',$sysID);
+			$xmlFFolder-&gt;addChild('sys_created_on',strtotime($sys_created_on));
+			$xmlFFolder-&gt;addChild('sys_updated_on',strtotime($sys_updated_on));
+			$xmlFFolder-&gt;addChild('mTime',$statarray['mtime']);
+			$xmlFFolder-&gt;addChild('CTime',$statarray['ctime']);
+			$xml-&gt;asXML($xmlFile);
+
+			unset($xmlFile);
+			unset($statarray);
+			unset($objDOM2);
+			unset($xml);
+
+		}catch(Exception $ex){
+			echo $ex-&gt;getMessage();
+		}
+		
+	}
+
+	/*
+	* Function 	:	updateConfigurationXML
+	* Params 	:	$configFile: XML File,....
+	* Output 	:	Update the configuration XML 
+	*/
+	public function updateConfigXML($configFile,$finalFFileName,$storedFolderName,$sysID,$sys_updated_on){
+
+		try{
+
+			$xmlFile 		=   $configFile;
+			$statarray 		= 	stat($finalFFileName);
+	            			// Update the XML File
+			$objDOM2  	= 	new DOMDocument();
+			$objDOM2-&gt;load($xmlFile);
+			$xml      	= 	simplexml_import_dom($objDOM2);
+			
+			$insertfilesCounter = count($xml-&gt;$storedFolderName-&gt;files);
+			for($insertkey=0;$insertkey&lt;$insertfilesCounter;$insertkey++)
+			{
+				if($xml-&gt;$storedFolderName-&gt;files[$insertkey]-&gt;sys_id == $sysID){
+					$xml-&gt;$storedFolderName-&gt;files[$insertkey]-&gt;mTime = $statarray['mtime'];
+					$xml-&gt;$storedFolderName-&gt;files[$insertkey]-&gt;sys_updated_on = @strtotime($sys_updated_on);
+					$xml-&gt;asXML($xmlFile);
+					break;
+				 }
+			}
+
+			unset($xmlFile);
+			unset($statarray);
+			unset($objDOM2);
+			unset($xml);
+
+		}catch(Exception $ex){
+			echo $ex-&gt;getMessage();
+		}
+		
+	}
+
+	/*
+	*	Function :	checkFile
+	*	params   :  $phpXML : configuration.xml path, $storedFolderName: folderName, $indivSysID: sysID
+	*   output   :  Returns the File Name for the SysID  
+	*/
+	public function checkFile($phpXml,$storedFolderName,$indivSysID){
+
+		$xmlFile    =  $phpXml; 	
+		$objDOM1  	=  new DOMDocument();
+		$objDOM1-&gt;load($xmlFile);
+		$xml 		= 	simplexml_import_dom($objDOM1);
+
+
+	    $insertfilesCounter =   count($xml-&gt;$storedFolderName-&gt;files);
+	    $fileScriptFile 	= 	"";
+	    $updatedTime    	= 	"";
+	    $sysid 				=	"";
+	    for($insertkey=0;$insertkey&lt;$insertfilesCounter;$insertkey++){
+
+				if($xml-&gt;$storedFolderName-&gt;files[$insertkey]-&gt;sys_id == $indivSysID){
+					$fileScriptFile = $xml-&gt;$storedFolderName-&gt;files[$insertkey]-&gt;file;
+					$updatedTime    = $xml-&gt;$storedFolderName-&gt;files[$insertkey]-&gt;sys_updated_on;
+					$sysid    = $xml-&gt;$storedFolderName-&gt;files[$insertkey]-&gt;sys_id;
+					break;
+
+			}
+	   }
+	   unset($xmlFile);
+	   unset($objDOM1);
+	   unset($xml);
+	   unset($insertkey);
+	   unset($insertfilesCounter);
+
+	   if($fileScriptFile != "")
+	   		return $fileScriptFile.":".$updatedTime.":".$sysid;
+	   else
+	   		return $fileScriptFile;
+
+
+	}
+
+	/*
+	*	Function :	downloadJSON
+	*	params   :  $baseString : authentication, $serverURL : url
+	*   output   :  Returns the payload 
+	*/
+	public function downloadJSON($baseString,$serverURL){
+
+		try{
+
+			$restAPI    		=   new REST_API;
+			$sys_ver_response   =   $restAPI-&gt;getRESTAPI($baseString,$serverURL);
+			$downobj      	    =   json_decode($sys_ver_response,true);
+			return $downobj;
+
+		}catch(Exception $ex){
+			echo $ex-&gt;getMessage();
+		}
+		
+	}
+
+	/*
+	*	Function :	deltaFile
+	*	params   :  Null
+	*   output   :  Update the delta XML with the last updated SysID 
+	*/
+	public function deltaFile(){
+		
+		try{
+
+			$phpTree    		=   new CLint;
+			$bFunc    			=   new BasicFunction;
+			$restAPI    		=   new REST_API;
+
+			$updateVersion 		= 	$phpTree-&gt;updateVersion;
+			$deltaFile  		=   $phpTree-&gt;deltaFile;
+			$serverURL    		=   $bFunc-&gt;ServiceUrl($updateVersion);
+			$baseString			=	$bFunc-&gt;baseString();
+			$obj          		=   $this-&gt;downloadJSON($baseString,$serverURL); 
+			$topmostSysID 		= 	$obj["result"][0]['sys_id'];
+			$deltaValue 		= 	$restAPI-&gt;updateDeltaFile($deltaFile,$topmostSysID,$obj["result"][0]['sys_created_on'],$obj["result"][0]['sys_updated_on']);
+
+			unset($phpTree);
+			unset($bFunc);
+			unset($restAPI);
+			unset($updateVersion);
+			unset($deltaFile);
+			unset($obj);
+			unset($deltaValue);
+
+		}catch(Exception $ex){
+			echo $ex-&gt;getMessage();
+		}	
+	}
+
+	public function validateFile($validatecheck){
+
+		//Grab the FileName Only
+		try{
+			$this-&gt;bFuncObj		=	new BasicFunction;
+			$phpInit 			= 	new CLint;
+			$restAPI    		=   new REST_API;
+
+
+			$folderArr 	= 	$this-&gt;bFuncObj-&gt;folderValue();
+	    	$snowArr	=	$this-&gt;bFuncObj-&gt;ComponentArray();
+	    	$filep      =   urldecode($this-&gt;argument[1]);
+			$fileArg	=	json_decode($filep,true); 
+			$rulepath   =   $phpInit-&gt;eslintLoc; 
+	    	//$fileCount 	=	explode(",",$fileArg);
+	    	$finalJSON  =   array();
+	    	$finalOutput =  "";
+	    	$finalOutput1 = ""; 
+
+	    	foreach($fileArg as $argKey=&gt;$argVal){
+
+	    		$indiv 		=	explode(",",$argVal);
+	    		$indivFile 	=	$argKey;
+
+	    		for($sysIdindex = 0; $sysIdindex &lt; count($indiv); $sysIdindex++){
+
+	    			$indivSysID =   $indiv[$sysIdindex];
+	    			
+
+	    			//Check whether it is a file
+	    			if($this-&gt;checkSysID($indivSysID) 	==	1){
+
+	    				//Check whether the folder already exists
+	    				if($this-&gt;checkFileName($indivFile,$snowArr)){
+	    					$storedFolderName 	= 	$folderArr[$snowArr[$indivFile]];
+	    					$fileScriptFile 	= 	$this-&gt;checkFile($phpInit-&gt;xmlFile,$storedFolderName,$indivSysID);
+	    				
+							if($fileScriptFile != ""){
+								$serverURL 		=	 $this-&gt;bFuncObj-&gt;ServiceUrl($snowArr[$indivFile]."/".$indivSysID);
+								$baseString		=	 $this-&gt;bFuncObj-&gt;baseString();
+								$downobj      	=    $this-&gt;downloadJSON($baseString,$serverURL);
+
+								$scripttypeArr  =    explode(":",$fileScriptFile);
+
+								if(@strtotime($downobj['result']['sys_updated_on']) == $scripttypeArr[1]){
+									$fullName 		= 	$phpInit-&gt;$storedFolderName."/".$scripttypeArr[0];
+							    	$finalOutput 	=	$this-&gt;applyValidation($fullName,$rulepath,$validatecheck);
+							    	$finalOutput1    =   $this-&gt;applySpecialValidation($fullName,$rulepath,$snowArr[$indivFile],$indivSysID,$indivFile);
+								}
+								else
+								{
+									$fullName 		= 	$phpInit-&gt;$storedFolderName."/".$scripttypeArr[0];
+									$newFlag		=	$restAPI-&gt;fileWCreate($fullName,$downobj['result']['script']);
+
+	            					if($newFlag	==	1){
+	            						$this-&gt;updateConfigXML($phpInit-&gt;xmlFile,$fullName,$storedFolderName,$indivSysID,$downobj['result']['sys_updated_on']);
+			            		   		$finalOutput 	=	$this-&gt;applyValidation($fullName,$rulepath,$validatecheck);
+			            		   		$finalOutput1   =   $this-&gt;applySpecialValidation($fullName,$rulepath,$snowArr[$indivFile],$indivSysID,$indivFile);
+	            					}
+								}
+							
+							}else{
+								$serverURL 		=	 $this-&gt;bFuncObj-&gt;ServiceUrl($snowArr[$indivFile]."/".$indivSysID);
+								$baseString		=	 $this-&gt;bFuncObj-&gt;baseString();
+								$downobj      	=    $this-&gt;downloadJSON($baseString,$serverURL);
+								//echo $downobj['result']['script'];
+
+								$origfile   	=    $downobj['result']['name'];
+				            	$finalFileWExt  = 	 $this-&gt;constructFilename($origfile,$downobj['result']['sys_id']);
+			            	
+			            		if(trim($finalFileWExt) != "_.js"){
+				            		$finalFFileName = 	$phpInit-&gt;$storedFolderName."/".$finalFileWExt;
+		            				$newFlag		=	$restAPI-&gt;fileNewCreate($finalFFileName,$downobj['result']['script']);
+
+		            				if($newFlag	==	1){
+				            		 
+				            		   $this-&gt;updateConfigurationXML($phpInit-&gt;xmlFile,$finalFFileName,$storedFolderName,$finalFileWExt,$indivSysID,$downobj['result']['sys_created_on'],$downobj['result']['sys_updated_on']);
+				            		   $finalOutput 	=	$this-&gt;applyValidation($finalFFileName,$rulepath,$validatecheck);
+				            		   $finalOutput1    =   $this-&gt;applySpecialValidation($fullName,$rulepath,$snowArr[$indivFile],$indivSysID,$indivFile);	
+								    }
+							    
+
+								}
+								else{
+									$finalOutput 	=	'Record does not exist or ACL restricts the record retrieval';
+								}
+							
+							}
+						
+
+	    				}
+	    				else{
+	    					$finalOutput = 'Script Type is not valid';
+	    				}
+	    			}
+	    			else{
+	    				$finalOutput 			=	"Not a Valid File";
+	    			}
+
+	    			if(strlen($finalOutput1)&gt;1)
+	    				if($finalOutput != " ")
+	    					$finalOutput = $finalOutput.",".$finalOutput1;
+	    				else
+	    					$finalOutput = $finalOutput1;
+
+	    			if($finalOutput != " ")
+	    				$finalJSON[$indivSysID] = $finalOutput;
+
+
+	    		}		    		
+	    	}
+	    	
+	    	echo json_encode($finalJSON)."\n"; 
+	    	ob_flush();
+		}
+		catch(Exception $ex){
+			echo $ex-&gt;getMessage();
+		}
+		
+	    
+
+	}
+
+	/*
+	*	Function :	checkSysID
+	* 	params 	 :	SysID : hexadecimal number
+	*   output   :  Returns 1 if the sysid is the hexadecimal number
+	*	
+	*/
+	public function checkSysID($sysID){
+		
+		try{
+
+			$sysFlag 		= 	0;
+			if(preg_match('/^[0-9A-Fa-f]{32}/', $sysID) &amp;&amp; strlen($sysID) == 32)
+				$sysFlag 	=	1;
+			return $sysFlag;
+
+		}catch(Exception $ex){
+			echo $ex-&gt;getMessage();
+		}
+		
+	}
+
+	/*
+	*	Function :	checkFileName
+	* 	params 	 :	SysID : hexadecimal number
+	*	
+	*/
+
+	public function checkFileName($fileName,$snowArr){
+		
+		try{
+
+			$fileFlag 		= 	0;
+
+			foreach($snowArr as $key=&gt;$value){
+				if($key === $fileName){
+					$fileFlag = 1;
+					break;
+				}
+			}
+
+			return $fileFlag;
+
+		}catch(Exception $ex){
+			echo $ex-&gt;getMessage();
+		}
+		
+	}
+
+	/*
+	*	Function :	checkFileName
+	* 	params 	 :	SysID : hexadecimal number
+	*	
+	*/
+
+	public function constructFilename($fileName,$sys_id){
+		
+		try{
+
+			$origfile   	 =    $fileName;
+		    $origfilename 	 = 	  $origfile;
+		    if(strlen($origfile)&gt;15)
+		        $origfilename = substr($origfile,0,14);
+
+		    $origfilename 	= 	str_replace(' ', '_', $origfilename);
+		    $finalFileWExt  = 	$origfilename."_".$sys_id.".js";
+
+			return $finalFileWExt;
+
+		}catch(Exception $ex){
+			echo $ex-&gt;getMessage();
+		}
+		
+	}
+
+	/*
+	*	Function :	applyValidation
+	* 	params 	 :	fileName : String
+	*	
+	*/
+	public function applyValidation($fileName,$ruleFolder,$validatecheck){
+
+		try{
+				$fullName = $fileName;
+
+				if(file_exists($fullName)){
+					if($validatecheck == 1)
+						$ret = exec('eslint --rulesdir '.$ruleFolder.' '.$fullName.' 2&gt;&amp;1',$out,$err);
+					else
+						$ret = exec('eslint '.$fullName.' 2&gt;&amp;1',$out,$err);
+				
+
+					$errorCount = count($out);
+					$output = array();
+
+					if($errorCount&gt;1){
+						$t = 0;
+						for($errCount=2;$errCount&lt;$errorCount-3;$errCount++){
+							$output[$t]    =    "Line ".trim($out[$errCount]);
+							$t++;
+						}
+						$finalout = implode(",",$output);
+					}
+					else
+						$finalout = " ";	
+					
+				}
+				else{
+					$finalout 	=	"Script does not exist";
+				}
+			    return $finalout;
+		}
+		catch(Exception $ex){
+			echo $ex-&gt;getMessage();
+		}
+	}
+
+	/*
+	*	Function :	applySpecialValidation
+	* 	params 	 :	fileName : String
+	*	
+	*/
+	public function applySpecialValidation($fileName,$ruleFolder,$scriptType,$sysID,$indivFile){
+
+		try{
+				$fullName = $fileName;
+
+				$phpTree    =   new CLint;
+				$objDOM1  	=   new DOMDocument();
+				$objDOM1-&gt;load($phpTree-&gt;directoryName."/configcond.xml");
+				$xml 		= 	simplexml_import_dom($objDOM1);
+
+			    $insertfilesCounter =   count($xml-&gt;$indivFile-&gt;files);
+			    $fileScriptFile 	= 	"";
+			    $finalout 			= 	"";
+			    
+
+			    for($insertkey=0; $insertkey&lt; $insertfilesCounter; $insertkey++){
+
+			    		$condition = $xml-&gt;$indivFile-&gt;files[$insertkey]-&gt;condition;
+
+			    		$finalURL 		=	$scriptType."?sysparm_query=sys_id=".$sysID."^".$condition."&amp;sysparm_fields=sys_id";
+
+						$serverURL 		=	 $this-&gt;bFuncObj-&gt;ServiceUrl($finalURL);
+						$baseString		=	 $this-&gt;bFuncObj-&gt;baseString();
+						$downobj      	=    $this-&gt;downloadJSON($baseString,$serverURL);
+						$str = "";
+						//echo $downobj['result'][0]['sys_id']."\n";
+
+						if($downobj['result'][0]['sys_id'] != ""){
+							
+							if(substr(PHP_OS,0,3) == "WIN")
+								$ret = exec("eslint --no-eslintrc --rulesdir ".substr($ruleFolder,0,strlen($ruleFolder)-1). " --rule \"".$xml-&gt;$indivFile-&gt;files[$insertkey]-&gt;rulename.":2\" ".$fullName." 2&gt;&amp;1",$out,$err);
+							else
+								$ret = exec("eslint --no-eslintrc --rulesdir ".substr($ruleFolder,0,strlen($ruleFolder)-1). " --rule '".$xml-&gt;$indivFile-&gt;files[$insertkey]-&gt;rulename.":2' ".$fullName." 2&gt;&amp;1",$out,$err);
+
+							//$ret = exec("eslint --no-eslintrc --rulesdir ".substr($ruleFolder,0,strlen($ruleFolder)-1). " --rule '".$xml-&gt;$indivFile-&gt;files[$insertkey]-&gt;rulename.":2' ".$fullName." 2&gt;&amp;1",$out,$err);
+				
+								$errorCount = count($out);
+								$output = array();
+
+								if($errorCount&gt;1){
+									$t = 0;
+									for($errCount=2;$errCount&lt;$errorCount-3;$errCount++){
+											if((trim($out[$errCount]) != "") &amp;&amp; (strpos($out[$errCount], ".js") &lt;= 0) &amp;&amp; (strpos($out[$errCount], "warnings") &lt;= 0)){
+												$output[$t]    =    "Line ".trim($out[$errCount]);
+												$t++;
+											}
+										
+									}
+									$finalout = implode(",",$output);	
+								}
+								else
+									$finalout = " ";
+
+								unset($str);
+						}	
+						
+			   }
+			   unset($xmlFile);
+			   unset($objDOM1);
+			   unset($xml);
+			   unset($insertkey);
+			   unset($insertfilesCounter);
+			   //unset($finalout);
+
+			   return $finalout;
+
+		}
+		catch(Exception $ex){
+			echo $ex-&gt;getMessage();
+		}
+	}
+
+}
+
+//Calling the function
+$phpTree    		=   new CLint;
+$acr  =  new SLINT($argv);
+$acr-&gt;validateFile($phpTree-&gt;ruleAvailable);
+
+
+
+?&gt;</file_content>
+        <file_name>codereview.php</file_name>
+        <path>acr</path>
+        <sys_class_name>x_snc_automated_co_acr_sources</sys_class_name>
+        <sys_created_by>hareeshhere</sys_created_by>
+        <sys_created_on>2017-04-05 16:19:42</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_id>4f82c040db42f20043abfd441d9619e1</sys_id>
+        <sys_mod_count>3</sys_mod_count>
+        <sys_name/>
+        <sys_package display_value="Automated Code Review" source="x_snc_automated_co">5501bca61315b240a5e739fed144b06d</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Automated Code Review">5501bca61315b240a5e739fed144b06d</sys_scope>
+        <sys_update_name>x_snc_automated_co_acr_sources_4f82c040db42f20043abfd441d9619e1</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2017-04-06 06:52:57</sys_updated_on>
+    </x_snc_automated_co_acr_sources>
+</record_update>
